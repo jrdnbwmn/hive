@@ -1,0 +1,71 @@
+{
+  "model": "opusplan",
+  "permissions": {
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "Bash(git *)",
+      "Bash(bin/rails *)",
+      "Bash(bundle *)",
+      "Bash(ruby *)",
+      "Bash(cat *)",
+      "Bash(ls *)",
+      "Bash(head *)",
+      "Bash(tail *)",
+      "Bash(wc *)",
+      "Bash(grep *)",
+      "Bash(find *)",
+      "Bash(mkdir *)",
+      "Bash(cp *)",
+      "Bash(mv *)"
+    ],
+    "deny": ["Read(.env*)", "Write(.env*)", "Bash(rm -rf *)"]
+  },
+  "env": {
+    "MCP_TOOL_TIMEOUT": "120000",
+    "BASH_MAX_TIMEOUT_MS": "300000"
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "input=$(cat); cmd=$(echo \"$input\" | jq -r '.tool_input.command // empty'); if echo \"$cmd\" | grep -qiE '(rm -rf /|DROP DATABASE|force_ssl.*false|git push --force|chmod 777)'; then echo '{\"decision\": \"block\", \"reason\": \"Blocked potentially dangerous command. Ask the user first.\"}'; else echo '{\"decision\": \"allow\"}'; fi",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "input=$(cat); file=$(echo \"$input\" | jq -r '.tool_input.file_path // .tool_input.path // empty'); if [ -n \"$file\" ] && echo \"$file\" | grep -qE '\\.(rb|rake)$'; then bundle exec rubocop -A \"$file\" --fail-level=E 2>/dev/null || true; fi",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "PermissionRequest": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cf-approve permission"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "npx -y ccstatusline@latest",
+    "padding": 0
+  }
+}
