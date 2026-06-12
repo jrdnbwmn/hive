@@ -15,6 +15,7 @@ Do the following in order:
 
 - Feature work: feature/<short-description>
 - Bug fix: fix/<short-description>
+- Chore: chore/<short-description>
 - Derive the short-description from $ARGUMENTS
 
 3. Run tests to verify clean baseline. If tests fail, STOP and report —
