@@ -11,6 +11,16 @@ I am a product designer who builds small Ruby on Rails SaaS apps via vibe coding
 - Each clone task should be small and independently verifiable.
 - Work in small, verifiable steps. Max ~7 files changed without checking in.
 
+### Working From Notion Tickets
+
+When we start a new task and I give you a Notion ticket URL for it, follow this workflow:
+
+1. Understand the ticket. Read the whole ticket/properties and combine with any extra instructions in my prompt. 
+2. Create a git branch for this ticket and write the branch name into the `Branch` property on the Notion ticket.
+3. Set the `Status` property to `In Progress`.
+4. When I say, start planning or executing the task. Implement only what's in scope. 
+5. Once we're done with the work, open the pull request on GitHub. PR title format: `[{ID}] {ticket title}` e.g. `[TIC-2] Add account settings form`. In the PR description, include a direct link to the Notion ticket. Write the PR URL into the `PR URL` property in the Notion ticket.
+
 ### Working From My Prototypes
 
 When I provide an HTML page or un-wired Rails view as a starting point:
@@ -35,6 +45,12 @@ Plans in `docs/plans/` are executed via `/execute-plan`. Do not auto-execute pla
 - NEVER claim work is "done", "passing", or "fixed" without running the verification command IN THE CURRENT MESSAGE and showing the output.
 - "I believe tests pass" is not verification. Run the command and show the result.
 - Before reporting a task complete: `git diff` to confirm what changed.
+
+## Git Branch Naming Rules
+
+- Feature work: feature/<short-description>
+- Bug fix: fix/<short-description>
+- Chore: chore/<short-description>
 
 ## Universal Rules
 
