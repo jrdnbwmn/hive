@@ -1,5 +1,8 @@
 {
-  "model": "opusplan",
+  "env": {
+    "MCP_TOOL_TIMEOUT": "120000",
+    "BASH_MAX_TIMEOUT_MS": "300000"
+  },
   "permissions": {
     "allow": [
       "Read",
@@ -20,12 +23,13 @@
       "Bash(cp *)",
       "Bash(mv *)"
     ],
-    "deny": ["Read(.env*)", "Write(.env*)", "Bash(rm -rf *)"]
+    "deny": [
+      "Read(.env*)",
+      "Write(.env*)",
+      "Bash(rm -rf *)"
+    ]
   },
-  "env": {
-    "MCP_TOOL_TIMEOUT": "120000",
-    "BASH_MAX_TIMEOUT_MS": "300000"
-  },
+  "model": "opusplan",
   "hooks": {
     "PreToolUse": [
       {
@@ -67,5 +71,16 @@
     "type": "command",
     "command": "npx -y ccstatusline@latest",
     "padding": 0
+  },
+  "enabledPlugins": {
+    "warp@claude-code-warp": true
+  },
+  "extraKnownMarketplaces": {
+    "claude-code-warp": {
+      "source": {
+        "source": "github",
+        "repo": "warpdotdev/claude-code-warp"
+      }
+    }
   }
 }
