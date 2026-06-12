@@ -19,7 +19,7 @@ When we start a new task and I give you a Notion ticket URL for it, follow this 
 2. Create a git branch for this ticket and write the branch name into the `Branch` property on the Notion ticket.
 3. Set the `Status` property to `In Progress`.
 4. When I say, start planning or executing the task. Implement only what's in scope. 
-5. Once we're done with the work, open the pull request on GitHub. PR title format: `[{ID}] {ticket title}` e.g. `[TIC-2] Add account settings form`. In the PR description, include a direct link to the Notion ticket. Write the PR URL into the `PR URL` property in the Notion ticket.
+5. Once we're done with the work, open the pull request on GitHub. PR title format: `[{ID}] {ticket title}` e.g. `[TIC-2] Add account settings form`. In the PR description, include a direct link to the Notion ticket. Write the PR URL into the `GitHub Pull Requests` and `PR URL` properties in the Notion ticket.
 
 ### Working From My Prototypes
 
