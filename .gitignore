@@ -2,6 +2,7 @@
 *
 
 # Except these
+!README.md
 !.gitignore
 !CLAUDE.md
 !settings.json
