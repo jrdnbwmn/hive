@@ -23,11 +23,7 @@
       "Bash(cp *)",
       "Bash(mv *)"
     ],
-    "deny": [
-      "Read(.env*)",
-      "Write(.env*)",
-      "Bash(rm -rf *)"
-    ]
+    "deny": ["Read(.env*)", "Write(.env*)", "Bash(rm -rf *)"]
   },
   "model": "opusplan",
   "hooks": {
@@ -37,7 +33,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "input=$(cat); cmd=$(echo \"$input\" | jq -r '.tool_input.command // empty'); if echo \"$cmd\" | grep -qiE '(rm -rf /|DROP DATABASE|force_ssl.*false|git push --force|chmod 777)'; then echo '{\"decision\": \"block\", \"reason\": \"Blocked potentially dangerous command. Ask the user first.\"}'; else echo '{\"decision\": \"allow\"}'; fi",
+            "command": "cmd=$(jq -r '.tool_input.command // empty'); if echo \"$cmd\" | grep -qiE '(rm -rf /|DROP DATABASE|force_ssl.*false|git push --force|chmod 777)'; then echo '{\"decision\": \"block\", \"reason\": \"Blocked potentially dangerous command. Ask the user first.\"}'; else echo '{\"decision\": \"allow\"}'; fi",
             "timeout": 5
           }
         ]
@@ -49,7 +45,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "input=$(cat); file=$(echo \"$input\" | jq -r '.tool_input.file_path // .tool_input.path // empty'); if [ -n \"$file\" ] && echo \"$file\" | grep -qE '\\.(rb|rake)$'; then bundle exec rubocop -A \"$file\" --fail-level=E 2>/dev/null || true; fi",
+            "command": "file=$(jq -r '.tool_input.file_path // .tool_input.path // empty'); if [ -n \"$file\" ] && echo \"$file\" | grep -qE '\\.(rb|rake)$'; then bundle exec rubocop -A \"$file\" --fail-level=E 2>/dev/null || true; fi",
             "timeout": 30
           }
         ]
@@ -61,7 +57,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "input=$(cat); if echo \"$input\" | grep -q '\"ExitPlanMode\"'; then exit 1; fi; echo \"$input\" | cf-approve permission",
+            "command": "tmpfile=$(mktemp); cat > \"$tmpfile\"; if grep -q '\"ExitPlanMode\"' \"$tmpfile\"; then rm -f \"$tmpfile\"; exit 1; fi; cf-approve permission < \"$tmpfile\"; rm -f \"$tmpfile\"",
             "timeout": 10
           }
         ]
@@ -84,4 +80,3 @@
       }
     }
   }
-}
