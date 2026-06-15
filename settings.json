@@ -57,7 +57,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "tmpfile=$(mktemp); cat > \"$tmpfile\"; if grep -q '\"ExitPlanMode\"' \"$tmpfile\"; then rm -f \"$tmpfile\"; exit 1; fi; cf-approve permission < \"$tmpfile\"; rm -f \"$tmpfile\"",
+            "command": "input=$(cat); if echo \"$input\" | grep -q '\"ExitPlanMode\"'; then exit 1; fi; echo \"$input\" | cf-approve permission",
             "timeout": 10
           }
         ]
@@ -80,3 +80,4 @@
       }
     }
   }
+}
