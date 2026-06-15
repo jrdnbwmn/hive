@@ -21,6 +21,7 @@ When we start a new task and I give you a Notion ticket URL for it, follow this 
 3. Set the `Status` property to `In Progress`.
 4. When I say, start planning or executing the task. Implement only what's in scope. 
 5. Once we're done with the work, open the pull request on GitHub. PR title format: `[{ID}] {ticket title}` e.g. `[TIC-2] Add account settings form`. In the PR description, include a direct link to the Notion ticket. Write the PR URL into the `GitHub Pull Requests` and `PR URL` properties in the Notion ticket.
+6. After the PR is open, prompt the user: "Ready to wrap up — want to run /review-changes and then /wrap-up?"
 
 ### Working From My Prototypes
 
