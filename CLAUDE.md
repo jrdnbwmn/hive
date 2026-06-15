@@ -10,6 +10,7 @@ I am a product designer who builds small Ruby on Rails SaaS apps via vibe coding
 - Do NOT create custom subagents. Delegate to clones of yourself.
 - Each clone task should be small and independently verifiable.
 - Work in small, verifiable steps. Max ~7 files changed without checking in.
+- After writing a plan, STOP. Do not call ExitPlanMode or begin implementation until I explicitly say to proceed.
 
 ### Working From Notion Tickets
 
