@@ -16,11 +16,10 @@ I am a product designer who builds small Ruby on Rails SaaS apps via vibe coding
 
 When we start a new task and I give you a Notion ticket URL for it, follow this workflow:
 
-1. Understand the ticket. Read the whole ticket/properties and combine with any extra instructions in my prompt. 
-2. Create a git branch for this ticket and write the branch name into the `Branch` property on the Notion ticket.
-3. Set the `Status` property to `In Progress`.
-4. When I say, start planning or executing the task. Implement only what's in scope. 
-5. Once we're done with the work, open the pull request on GitHub. PR title format: `[{ID}] {ticket title}` e.g. `[TIC-2] Add account settings form`. In the PR description, include a direct link to the Notion ticket. Write the PR URL into the `GitHub Pull Requests` and `PR URL` properties in the Notion ticket.
+1. Fetch the ticket. Read the full content and properties (especially `ID`, `Name`).
+4. Create a git branch, then write the branch name into the `Branch` property and set `Status` to `In progress`.
+4. When I say, plan/implement the task.
+5. When done, open the pull request on GitHub. PR title format: `[{ID}] {ticket title}` e.g. `[TIC-2] Add account settings form`. In the PR description, include a direct link to the Notion ticket. Write the PR URL into the `PR URL` property in the Notion ticket.
 6. After the PR is open, prompt the user: "Ready to wrap up — want to run /review-changes and then /wrap-up?"
 
 ### Working From My Prototypes
