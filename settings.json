@@ -23,7 +23,11 @@
       "Bash(cp *)",
       "Bash(mv *)"
     ],
-    "deny": ["Read(.env*)", "Write(.env*)", "Bash(rm -rf *)"]
+    "deny": [
+      "Read(.env*)",
+      "Write(.env*)",
+      "Bash(rm -rf *)"
+    ]
   },
   "model": "opusplan",
   "hooks": {
@@ -66,18 +70,12 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "npx -y ccstatusline@latest",
+    "command": "bash /Users/jordan/.claude/statusline-command.sh",
     "padding": 0
   },
-  "enabledPlugins": {
-    "warp@claude-code-warp": true
-  },
-  "extraKnownMarketplaces": {
-    "claude-code-warp": {
-      "source": {
-        "source": "github",
-        "repo": "warpdotdev/claude-code-warp"
-      }
-    }
-  }
+  "enabledPlugins": {},
+  "extraKnownMarketplaces": {},
+  "tui": "fullscreen",
+  "inputNeededNotifEnabled": true,
+  "agentPushNotifEnabled": true
 }
