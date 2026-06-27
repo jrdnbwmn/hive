@@ -36,9 +36,9 @@ Don't propose models that already exist or
 components that are already built (unless you're extending them) and don't propose features that contradict the positioning or
 solve problems outside the persona needs.
 
-If the user points to a feature doc in `docs/product/features/`, read
-it as primary input. The design doc you will produce replaces the feature
-doc as the source of truth — incorporate everything implementation-
+If the user points to a Notion ticket, read
+it as primary input. The design doc you will produce replaces the ticket
+as the source of truth — incorporate everything implementation-
 relevant so write-plan doesn't need to read the original.
 
 If the user provides a prototype (HTML, ERB, screenshot), read it.
@@ -135,11 +135,6 @@ After user approves the design, save to `docs/designs/<feature-name>.md`:
 Only include what affects implementation. Omit section if
 no feature doc exists.>
 ```
-
-If a feature doc in `docs/product/features/` was used as input, add a
-note at the top of it:
-`> Superseded by docs/designs/<feature-name>.md`
-Do NOT delete it — it preserves the original product thinking.
 
 Commit the design file: `docs: add design for <feature>`.
 
