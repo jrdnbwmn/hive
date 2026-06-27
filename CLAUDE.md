@@ -55,7 +55,7 @@ Plans in `docs/plans/` are executed via `/execute-plan`. Do not auto-execute pla
 
 ## Universal Rules
 
-- When in doubt, write boring, obvious Rails code. No metaprogramming, no clever abstractions, no custom DSLs.
+- When in doubt, write boring, obvious code. No metaprogramming, no clever abstractions, no custom DSLs.
 - If something seems risky or unclear, ASK ME instead of guessing.
 - Never use --force or destructive commands without explicit approval.
 - Use Context7 MCP when you need library/API documentation or examples. If Context7 fails on first attempt, don't retry — tell the user and reference existing code patterns where applicable for the rest of this session instead of guessing at API usage. Exception: for information on existing UI components, use `docs/COMPONENT_CATALOG.md` — do NOT look up RailsBlocks, Flowbite, or other external component libraries.
