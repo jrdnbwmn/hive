@@ -21,7 +21,8 @@
       "Bash(find *)",
       "Bash(mkdir *)",
       "Bash(cp *)",
-      "Bash(mv *)"
+      "Bash(mv *)",
+      "Bash(gh pr create *)"
     ],
     "deny": [
       "Read(.env*)",
