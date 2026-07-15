@@ -1,6 +1,6 @@
 ---
 name: wrap-up
-version: 1.1 # bump on meaningful changes
+version: 1.2 # bump on meaningful changes
 description: >
   End-of-session ritual: ship, remember, improve. Commits code, captures
   learnings, logs system improvements for manual review, and documents
@@ -77,6 +77,19 @@ Route each learning through these questions in order — stop at first match:
 | 3 | Debugging insight or quirk for this project? | `CLAUDE.local.md` |
 | 4 | Duplicates existing content? | `@import` reference only |
 | 5 | Everything else (skills, commands, rules, global config) | Append to `~/.claude/system-learnings.md` |
+
+**Before writing to CLAUDE.local.md (routes 1 and 3):** check whether
+this is a linked worktree — `[ "$(git rev-parse --git-dir)" !=
+"$(git rev-parse --git-common-dir)" ]`. If true and `CLAUDE.local.md`
+is not a symlink (`[ -L CLAUDE.local.md ]`), it's a plain file local to
+this worktree only — gitignored, never copied anywhere else, and
+permanently lost when this workspace is archived (e.g. in Conductor).
+Still write it, but warn explicitly: "Wrote to CLAUDE.local.md, but
+this is a Conductor workspace and the file isn't symlinked to your
+project root — this note will be lost when the workspace is archived.
+Consider symlinking CLAUDE.local.md to the project root via a
+Conductor setup script." Route 5 (`~/.claude/system-learnings.md`) is
+unaffected — it lives in the home directory, not the worktree.
 
 **Route 5 format** (create the file if it doesn't exist):
 
