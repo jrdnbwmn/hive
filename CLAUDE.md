@@ -23,6 +23,9 @@ follow this workflow:
    `/branch TIC-123 add account settings`). This embeds the identifier
    in the branch name — required for Linear's GitHub integration to
    auto-link the branch/PR to the issue. See Git Branch Naming Rules.
+   Working in Conductor: skip this — the workspace already created the
+   branch. Just make sure the workspace/branch name embeds the
+   identifier when you create it, so auto-linking still works.
 3. Do NOT manually update the issue's status or write the branch name
    back into Linear — the GitHub integration does this automatically
    once the identifier appears in the branch name (step 2 covers this).

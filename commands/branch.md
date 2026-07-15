@@ -5,6 +5,13 @@ model: haiku
 argument-hint: <short description, or "<TICKET-ID> <description>" for ticket work>
 ---
 
+If working in a Conductor workspace (or any pre-existing git worktree),
+the branch and worktree already exist — Conductor creates both when
+the workspace is created. Skip this command entirely; it's for the
+traditional single-checkout workflow. Just make sure the workspace/
+branch name embeds the ticket identifier (e.g. `tic-123-...`) so
+Linear's GitHub integration can still auto-link.
+
 Do the following in order:
 
 1. Check for uncommitted changes: `git status --porcelain`
