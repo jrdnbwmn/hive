@@ -79,6 +79,10 @@ c) **discard** — confirm with me, then delete branch
 - Delete the local feature branch: `git branch -d <feature-branch>`
 - Delete the remote feature branch if it exists:
   `git push origin --delete <feature-branch>`
+- Read and run the archive-docs skill inline, using
+  `<feature-branch>` as the identifier (skip its commit step — fold
+  the doc move into this step's own commit, or commit separately as
+  `chore: archive docs for <feature-branch>`)
 - "Code merged and pushed to main. Render will auto-deploy. Check the Render
   dashboard to confirm the deploy succeeds."
 
@@ -87,7 +91,8 @@ c) **discard** — confirm with me, then delete branch
 - `git push origin <feature-branch>`
 - `gh pr create --fill` (or prompt me for title/description)
 - Stay on the feature branch until PR is merged
-- Say "Pushed and PR created. Still on branch."
+- Say "Pushed and PR created. Still on branch. Once it's merged, run
+  `/archive-docs` (any thread) to move its design/plan docs to done/."
 
 **If discard:**
 

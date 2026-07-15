@@ -8,3 +8,6 @@
 - Never commit .env, credentials, or API keys.
 - Never force-push to main.
 - Branch naming: `feature/short-description` or `fix/short-description`.
+- For Linear ticket work: embed the lowercased identifier —
+  `feature/tic-123-short-description` — required for Linear's GitHub
+  integration to auto-link the branch.

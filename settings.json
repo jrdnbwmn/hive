@@ -24,11 +24,7 @@
       "Bash(mv *)",
       "Bash(gh pr create *)"
     ],
-    "deny": [
-      "Read(.env*)",
-      "Write(.env*)",
-      "Bash(rm -rf *)"
-    ]
+    "deny": ["Read(.env*)", "Write(.env*)", "Bash(rm -rf *)"]
   },
   "model": "opusplan",
   "hooks": {

@@ -1,13 +1,11 @@
 ---
 name: write-plan
-version: 1.2 # bump on meaningful changes
 description: >
   Create a detailed implementation plan from an approved design. Use 
   ONLY when user runs /write-plan or asks for a plan for a multi-file, multi-model change. Do NOT use 
   for small changes, tweaks, bug fixes, UI adjustments,
   single-file edits, or when the user's request is specific enough to
   implement directly.
-model: opus
 ---
 
 # Write Plan
@@ -23,9 +21,6 @@ Announce: "I'm using the write-plan skill to create an implementation plan from 
 The plan you produce MUST follow this structure exactly:
 
 ```markdown
-> Ticket: <copied verbatim from the design doc's header>
-> Branch: <copied verbatim from the design doc's header>
-
 # Plan: <Feature Name>
 
 ## Status
@@ -131,15 +126,8 @@ Default to Master when uncertain.
 ## Approval & Save
 
 1. Present the full plan. Wait for explicit approval.
-2. Read the `Ticket:`/`Branch:` header from the top of the design doc.
-   Copy both lines verbatim into the top of the plan doc — this keeps
-   the pair matchable later even from a thread with no memory of this
-   session. If the design doc has no header (predates tagging), derive
-   values the same way brainstorm does (ticket identifier if known,
-   `git branch --show-current` otherwise) and add the header to both
-   files.
-3. Save to `docs/plans/<feature-name>.md` and commit: `docs: add plan for <feature>`.
-4. Add to the top of the design doc: `> Plan created: docs/plans/<feature-name>.md`
-5. Tell the user: **"Plan approved and saved. Run /execute-plan to start."**
+2. Save to `docs/plans/<feature-name>.md` and commit: `docs: add plan for <feature>`.
+3. Add to the top of the design doc: `> Plan created: docs/plans/<feature-name>.md`
+4. Tell the user: **"Plan approved and saved. Run /execute-plan to start."**
 
 Do NOT begin implementation. Plan and build are separate phases.

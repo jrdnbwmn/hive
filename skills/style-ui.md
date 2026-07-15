@@ -27,7 +27,7 @@ uses a ViewComponent-based design system with design tokens.
 4. If a component exists but needs modification, modify it — don't
    create a parallel version.
 5. If no component exists, see "When a Base Component Is Missing."
-6. Check `app/assets/stylesheets/theme/_tokens.css` for design tokens.
+6. Check `app/assets/tailwind/theme/_tokens.css` for design tokens.
 
 Do NOT reference RailsBlocks, Flowbite, or any external component
 library. `docs/COMPONENT_CATALOG.md` and `app/components/` are the
@@ -78,7 +78,7 @@ When the user gives a raw HTML or un-wired ERB prototype:
 4. Replace raw HTML with ViewComponent render calls, preserving:
    - The exact layout and visual hierarchy
    - All Tailwind classes that aren't handled by the component
-   - Any custom spacing, sizing, or positioning (but ask if there are new tokens that need to be made in `app/assets/stylesheets/theme/_tokens.css`)
+   - Any custom spacing, sizing, or positioning (but ask if there are new tokens that need to be made in `app/assets/tailwind/theme/_tokens.css`)
 5. Wire up real data where the prototype uses placeholder/hardcoded content
 6. Add Stimulus controllers for interactive elements
 7. Add loading, empty, and error states if not already prototyped
@@ -123,7 +123,7 @@ Every data-driven component needs these (ask if unsure what to do):
 
 ## Hard Rules
 
-- NEVER hardcode styling that is already available as a token in `app/assets/stylesheets/theme/_tokens.css` or add arbitrary Tailwind values — always use token-based Tailwind classes. If you need a new token, ask.
+- NEVER hardcode styling that is already available as a token in `app/assets/tailwind/theme/_tokens.css` or add arbitrary Tailwind values — always use token-based Tailwind classes. If you need a new token, ask.
 - NEVER add JS dependencies without asking
 - NEVER use icon libraries not already in the project
 - NEVER create `tailwind.config.js` — this is Tailwind v4

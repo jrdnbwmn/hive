@@ -1,6 +1,6 @@
 ---
 name: wrap-up
-version: 1.0 # bump on meaningful changes
+version: 1.1 # bump on meaningful changes
 description: >
   End-of-session ritual: ship, remember, improve. Commits code, captures
   learnings, logs system improvements for manual review, and documents
@@ -43,22 +43,15 @@ Check changed files (`git diff --name-only main` or `HEAD~5`):
 
 Read and run `/catchup` inline (skip its commit step).
 
-### 1C. Archive Completed Plans
-
-If the plan in `docs/plans/` has all tasks complete:
-- Move the plan to `docs/plans/done/`
-- If an associated design exists in `docs/designs/`, move it to
-  `docs/designs/done/`
-
-### 1D. Preflight Checks
+### 1C. Preflight Checks
 
 Run in order. Stop and report on any failure.
 
 1. `bin/rails db:migrate:status` — flag any pending or "down" migrations
 2. `bin/rails test` — full suite must pass. If tests fail, STOP.
-3. `git status` — if nothing to commit, skip to 1E
+3. `git status` — if nothing to commit, skip to 1D
 
-### 1E. Commit & Push
+### 1D. Commit & Push
 
 1. Stage everything and commit following git-conventions rules
 2. Push to remote
@@ -68,8 +61,7 @@ Run in order. Stop and report on any failure.
 
 ## Phase 2: Remember, Review, Improve
 
-Before starting, read `.claude/session-learnings.md` if it exists. This
-file has learnings from earlier in the session (captured before context
+Before starting, read `.claude/session-learnings.md` and `.codex/session-learnings.md` if they exist. These files have learnings from earlier in the session (captured before context
 clears). Combine with observations from the current context window.
 Process ALL learnings — from the file and from memory — through the
 sections below.

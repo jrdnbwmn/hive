@@ -1,6 +1,6 @@
 ---
 name: brainstorm
-version: 1.0 # bump on meaningful changes
+version: 1.3 # bump on meaningful changes
 description: >
   Explore and refine what to build before writing code through Socratic
   questioning. Use when ONLY when the user runs /brainstorm or when 
@@ -36,7 +36,7 @@ Don't propose models that already exist or
 components that are already built (unless you're extending them) and don't propose features that contradict the positioning or
 solve problems outside the persona needs.
 
-If the user points to a Notion ticket, read
+If the user points to a Linear ticket, read
 it as primary input. The design doc you will produce replaces the ticket
 as the source of truth — incorporate everything implementation-
 relevant so write-plan doesn't need to read the original.
@@ -99,9 +99,21 @@ State assumptions explicitly and ask the user to confirm them.
 
 ## Phase 4: Document
 
-After user approves the design, save to `docs/designs/<feature-name>.md`:
+After user approves the design, determine tagging values so this doc can
+be found accurately later, from any thread:
+
+- **Ticket:** the Linear identifier if one was provided this session
+  (e.g. `TIC-123`), otherwise `None`.
+- **Branch:** current branch (`git branch --show-current`) if not on
+  `main`/`master`, otherwise `TBD`.
+
+Save to `docs/designs/<feature-name>.md`, with the tags as the first two
+lines of the file, above the heading:
 
 ```
+> Ticket: <ticket ID or "None">
+> Branch: <branch name or "TBD">
+
 # Feature: <name>
 
 ## Problem

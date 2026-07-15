@@ -12,15 +12,30 @@ I am a product designer who builds small Ruby on Rails SaaS apps via vibe coding
 - Work in small, verifiable steps. Max ~7 files changed without checking in.
 - After writing a plan, STOP. Do not call ExitPlanMode or begin implementation until I explicitly say to proceed.
 
-### Working From Notion Tickets
+### Working From Tickets (Linear)
 
-When we start a new task and I give you a Notion ticket URL for it, follow this workflow:
+When we start a new task and I give you a Linear ticket reference,
+follow this workflow:
 
-1. Fetch the ticket. Read the full content and properties (especially `ID`, `Name`).
-4. Create a git branch, then write the branch name into the `Branch` property and set `Status` to `In progress`.
+1. Fetch the issue (Linear MCP). Read the full description and note its
+   identifier (e.g. `TIC-123`) and title.
+2. Run `/branch` with the identifier and a short description (e.g.
+   `/branch TIC-123 add account settings`). This embeds the identifier
+   in the branch name — required for Linear's GitHub integration to
+   auto-link the branch/PR to the issue. See Git Branch Naming Rules.
+3. Do NOT manually update the issue's status or write the branch name
+   back into Linear — the GitHub integration does this automatically
+   once the identifier appears in the branch name (step 2 covers this).
 4. When I say, plan/implement the task.
-5. When done, open the pull request on GitHub. PR title format: `[{ID}] {ticket title}` e.g. `[TIC-2] Add account settings form`. In the PR description, include a direct link to the Notion ticket. Write the PR URL into the `PR URL` property in the Notion ticket.
-6. After the PR is open, prompt the user: "Ready to wrap up — want to run /review-changes and then /wrap-up?"
+5. When done, open the pull request on GitHub. PR title format:
+   `[{identifier}] {issue title}` e.g. `[TIC-123] Add account settings
+form`. Include the identifier in the PR title (Linear matches on
+   title/description too, not just branch name) and a direct link to
+   the Linear issue in the PR description.
+6. Do NOT manually write the PR URL back into Linear — the GitHub
+   integration attaches it automatically once linked.
+7. After the PR is open, prompt the user: "Ready to wrap up — want to
+   run /review-changes and then /wrap-up?"
 
 ### Working From My Prototypes
 
@@ -52,6 +67,10 @@ Plans in `docs/plans/` are executed via `/execute-plan`. Do not auto-execute pla
 - Feature work: feature/<short-description>
 - Bug fix: fix/<short-description>
 - Chore: chore/<short-description>
+- Ticket-derived work (Linear): feature/<identifier>-<short-description>
+  or fix/<identifier>-<short-description>, identifier lowercased (e.g.
+  `feature/tic-123-add-account-settings`). Required for Linear's GitHub
+  integration to auto-link — see Working From Tickets.
 
 ## Universal Rules
 
