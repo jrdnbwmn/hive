@@ -1,6 +1,6 @@
 ---
 name: review-changes
-version: 1.0 # bump on meaningful changes
+version: 1.1 # bump on meaningful changes
 description: >
   Review recent code changes for bugs, security issues, Rails
   anti-patterns, and spec compliance. Invoked by commands
@@ -23,8 +23,8 @@ Announce: "I'm using the review-changes skill to run a review."
 | Invoked as | What to diff |
 |---|---|
 | `/review-changes branch` | `git diff main` (all branch changes) |
-| `/review-changes` (no args) | `git diff` (uncommitted only). If clean: "Nothing to review — use `/review-changes branch` for the full branch." |
-| From another skill or plan task | `git diff` (uncommitted). If clean: `git diff HEAD~1` |
+| `/review-changes` (no args) | `git diff HEAD` (staged + unstaged against HEAD — plain `git diff` alone misses staged changes) plus `git status --porcelain` for untracked new files, read directly since diff commands never show untracked content. If both empty: "Nothing to review — use `/review-changes branch` for the full branch." |
+| From another skill or plan task | Same as above (`git diff HEAD` + untracked check). If clean: `git diff HEAD~1` |
 
 For branch reviews with 20+ files: focus on cross-file concerns
 (inconsistent patterns, duplicate code, missing integration). Per-file

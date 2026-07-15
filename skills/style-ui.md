@@ -1,6 +1,6 @@
 ---
 name: style-ui
-version: 1.0 # bump on meaningful changes
+version: 1.1 # bump on meaningful changes
 description: >
   UI consistency and design system enforcement. Use when building or
   editing any user-facing interface — pages, components, forms, layouts.
@@ -38,10 +38,12 @@ only sources of truth.
 If you need a generic UI element (form input, feedback element, overlay,
 navigation pattern) that doesn't exist in the catalog:
 
-- Do NOT build it from scratch
+- Do NOT build it from scratch, and do NOT run /create-component
+  yourself mid-task — adding a base component is a separate, deliberate
+  action, never something to fold into unrelated work.
 - STOP and report: "This task needs a [component type] that doesn't
-  exist in the component library. Add it to the library before
-  proceeding."
+  exist in the component library. Run /create-component to add it,
+  then re-run this task."
 - Continue with other parts of the task if possible, using a placeholder
   comment: `<%# TODO: replace with [ComponentName] when available %>`
 

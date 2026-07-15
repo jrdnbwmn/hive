@@ -16,5 +16,6 @@ $ARGUMENTS
 6. Create Lookbook preview for the new component with at least these scenarios: default (basic usage with required arguments), each major variant, and error/edge states (if the component accepts error arguments). Only add the content for this new component, don't make any other changes.
 7. Add the new component to the kitchen sink in `app/views/dev/kitchen_sink/show.html.erb` with representative example data, matching the existing page style and category grouping.
 8. Run tests
-9. Commit following git-conventions: "feature: add [ComponentName]"
-10. Say, "Component created and committed."
+9. Stage the changes. Do NOT commit — leave that to /commit,
+   review-changes, or wrap-up, same as any other implementation work.
+10. Say "Component created and staged."

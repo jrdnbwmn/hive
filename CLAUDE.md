@@ -27,15 +27,19 @@ follow this workflow:
    back into Linear — the GitHub integration does this automatically
    once the identifier appears in the branch name (step 2 covers this).
 4. When I say, plan/implement the task.
-5. When done, open the pull request on GitHub. PR title format:
-   `[{identifier}] {issue title}` e.g. `[TIC-123] Add account settings
-form`. Include the identifier in the PR title (Linear matches on
-   title/description too, not just branch name) and a direct link to
-   the Linear issue in the PR description.
-6. Do NOT manually write the PR URL back into Linear — the GitHub
+5. When I say the work is done, prompt: "Ready to wrap up — want to run
+   /review-changes and then /wrap-up?"
+6. Once wrap-up finishes, run `/close-out` to open the PR. PR title
+   format: `[{identifier}] {issue title}` e.g. `[TIC-123] Add account
+   settings form`. Include the identifier in the PR title (Linear
+   matches on title/description too, not just branch name) and a
+   direct link to the Linear issue in the PR description.
+7. Do NOT manually write the PR URL back into Linear — the GitHub
    integration attaches it automatically once linked.
-7. After the PR is open, prompt the user: "Ready to wrap up — want to
-   run /review-changes and then /wrap-up?"
+8. I review and merge the PR myself on GitHub — Claude does not merge
+   ticket work. Once merged, tell me or run `/close-out` again (any
+   thread) to sync main, delete the branch, and archive the design/plan
+   docs.
 
 ### Working From My Prototypes
 

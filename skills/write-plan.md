@@ -1,6 +1,6 @@
 ---
 name: write-plan
-version: 1.2 # bump on meaningful changes
+version: 1.4 # bump on meaningful changes
 description: >
   Create a detailed implementation plan from an approved design. Use 
   ONLY when user runs /write-plan or asks for a plan for a multi-file, multi-model change. Do NOT use 
@@ -104,7 +104,9 @@ define what's NOT in scope, the task is too vague — split or refine it.
 
 Before writing any UI task, check the catalog. If a needed component
 doesn't exist, do NOT include it inline. Add a prerequisite task:
-"Add [Component] to the component library" — or flag it as a blocker.
+"[Master] Run /create-component to add [Component] to the component
+library" — or flag it as a blocker. Assign it to Master, not Clone —
+it touches shared infra other tasks will depend on.
 
 ### Phasing
 
