@@ -1,6 +1,6 @@
 ---
 name: close-out
-version: 1.3 # bump on meaningful changes
+version: 1.4 # bump on meaningful changes
 description: >
   Single entry point to close out ticket/feature work after
   review-changes and wrap-up have run. Detects whether a PR exists yet
@@ -188,56 +188,69 @@ directly into Section 5. If it still shows open, say so.
 
 ## 5. Merged — Sync and Archive
 
-Check for a linked worktree first: `[ "$(git rev-parse --git-dir)" !=
-"$(git rev-parse --git-common-dir)" ]`.
+1. Check for a linked worktree: `[ "$(git rev-parse --git-dir)" !=
+   "$(git rev-parse --git-common-dir)" ]`. True → go to **Linked
+   worktree** below. False → continue below. Check this before running
+   anything else in this section — do not jump straight to `git
+   checkout main`.
 
 **Not a worktree (traditional single checkout):**
 
-1. `git checkout main && git pull`
-2. Read and run the archive-docs skill inline, using `<branch>` as the
+2. `git checkout main && git pull`
+3. Read and run the archive-docs skill inline, using `<branch>` as the
    identifier — skip its own identifier-resolution step, it's already
    known. Let it run its own commit. Since we're on main, this commits
    directly to main. If Section 3D already archived the docs before
    this PR was opened (the normal case now), archive-docs will likely
    find nothing left to do — that's expected, not an error.
-3. Delete the local branch if it still exists: `git branch -d <branch>`
+4. Delete the local branch if it still exists: `git branch -d <branch>`
    (ignore the error if already gone)
-4. Delete the remote branch if it still exists: `git push origin
+5. Delete the remote branch if it still exists: `git push origin
    --delete <branch>` (ignore the error if GitHub already auto-deleted it)
-5. Report: "Closed out [identifier]: main synced, branch removed, docs archived."
+6. Report: "Closed out [identifier]: main synced, branch removed, docs archived."
 
 **Linked worktree (e.g. a Conductor workspace):**
 
 `main` is checked out in a different worktree, and this worktree's own
 branch can't be deleted while it's checked out here — skip both. No
 need to sync a local `main` either; a fresh workspace always starts
-from current `origin/main`.
+from current `origin/main`. Do NOT run `git checkout main` in this
+worktree — it will fail, `main` is checked out elsewhere.
 
-1. Read and run the archive-docs skill inline, using `<branch>` as the
-   identifier. Let it run its own commit. There's no way to be "on
-   main" in this worktree, so this commits on the current branch.
-2. **If archive-docs found nothing to archive** (expected — Section 3D
-   should have archived it before this PR was opened): skip to step 5.
-3. **If archive-docs did commit something** (fallback: docs weren't
+2. `git fetch origin`, then `git checkout -b <branch>-archive
+   origin/main` — a temp branch based on current main, not on
+   `<branch>` itself. This matters if the PR was squash-merged (check:
+   `git log -1 --oneline origin/main` — a squash-merge commit title
+   looks like `<title> (#<pr-number>)`). After a squash merge,
+   `<branch>`'s own history never contains that squash commit, so
+   committing directly on `<branch>` and then checking its ancestry
+   against `origin/main` would fail even though pushing is perfectly
+   safe. Branching fresh from `origin/main` sidesteps that — the temp
+   branch is `origin/main` plus one commit, by construction, so there's
+   nothing left to verify.
+3. Read and run the archive-docs skill inline, using `<branch>` as the
+   identifier, on this temp branch. Let it run its own commit.
+4. **If archive-docs found nothing to archive** (expected — Section 3D
+   should have archived it before this PR was opened): `git checkout
+   <branch> && git branch -D <branch>-archive`, then skip to step 7.
+5. **If archive-docs did commit something** (fallback: docs weren't
    archived pre-merge, e.g. this PR was opened or merged some other
-   way) — that commit needs to land on main without a PR, since it's
-   pure doc housekeeping riding on an already-merged branch. Verify
-   it's safe before doing anything:
-   - `git merge-base --is-ancestor origin/main HEAD` must succeed (this
-     branch has no divergence from origin/main)
-   - `git rev-list --count origin/main..HEAD` should be a small number
-     matching only the archive commit(s) just made
-   If either check fails, STOP — there's more ahead of origin/main
-   than expected. Report it and ask the user to resolve manually. Do
-   NOT push.
-4. If the checks pass, ask: "This branch is otherwise identical to
-   origin/main (already merged) — OK to push the archive commit
-   directly to main? (`git push origin HEAD:main`)" Wait for an
-   explicit yes. On yes: `git push origin HEAD:main`.
-5. Delete the remote branch if it still exists: `git push origin
+   way) — that commit needs to land on `main`. This is a real push to a
+   shared branch: always ask, every time, regardless of what a past
+   archive commit did.
+
+   **STOP. Ask exactly this, and wait for an explicit yes:** "Ready to
+   push a doc-archive commit directly to main (`git push origin
+   <branch>-archive:main`). OK to push?" Do not proceed on silence, and
+   do not treat a prior similar push (e.g. an earlier ticket's archive
+   commit) as standing permission for this one.
+
+   On yes only: `git push origin <branch>-archive:main`.
+6. `git checkout <branch> && git branch -D <branch>-archive`
+7. Delete the remote branch if it still exists: `git push origin
    --delete <branch>` (ignore the error if GitHub already auto-deleted it)
-6. Report: "Closed out [identifier]: docs archived[, pushed to main if
-   step 4 ran]. Archive this workspace in Conductor to remove the
+8. Report: "Closed out [identifier]: docs archived[, pushed to main if
+   step 5 ran]. Archive this workspace in Conductor to remove the
    worktree and local branch."
 
 ## 6. Closed, Not Merged — Ask

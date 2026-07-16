@@ -1,6 +1,6 @@
 ---
 name: archive-docs
-version: 1.1 # bump on meaningful changes
+version: 1.2 # bump on meaningful changes
 description: >
   Archive the design and plan docs for one merged ticket/branch by moving
   them to docs/designs/done/ and docs/plans/done/. Use when the user runs
@@ -39,6 +39,12 @@ Top-level files only — never recurse into `done/`:
 grep -l "^> Ticket: <id>$"     docs/designs/*.md docs/plans/*.md
 grep -l "^> Branch: <branch>$" docs/designs/*.md docs/plans/*.md
 ```
+
+Always run these greps — even if a directory listing shows only one
+file sitting outside `done/`. Multiple tickets can be in progress at
+once (parallel Conductor workspaces, multiple threads), so "only one
+candidate file" is not the same as "matched." Never substitute a
+directory listing for the actual header match.
 
 ## 3. Handle Match Results
 
