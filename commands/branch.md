@@ -5,27 +5,24 @@ model: haiku
 argument-hint: <short description, or "<TICKET-ID> <description>" for ticket work>
 ---
 
-If working in a Conductor workspace (or any pre-existing git worktree),
-the branch and worktree already exist — Conductor creates both when
-the workspace is created. Skip this command entirely; it's for the
-traditional single-checkout workflow. Just make sure the workspace/
-branch name embeds the ticket identifier (e.g. `tic-123-...`) so
-Linear's GitHub integration can still auto-link.
+This command is a one-off for the **traditional single-checkout
+workflow** — creating a branch from main. You won't normally run it: in a
+Conductor workspace the branch already exists (Conductor creates it), and
+`/brainstorm`'s Phase 0 renames it to embed the ticket identifier. Use
+this command only when you need to create a branch yourself outside the
+Conductor flow.
 
 Do the following in order:
 
 1. Check for uncommitted changes: `git status --porcelain`
    If there are changes, STOP: "You have uncommitted changes. Run /commit
    or stash them first."
-2. Check out main and pull latest. Create a new branch from main,
-   following the Git Branch Naming Rules:
-   - If $ARGUMENTS starts with a ticket identifier (e.g. `TIC-123`,
-     matching `[A-Z]+-\d+`), lowercase it and embed it:
-     `feature/tic-123-<short-description>` (derive the description
-     from the rest of $ARGUMENTS). This is required for Linear's
-     GitHub integration to auto-link the branch — don't drop it.
-   - Otherwise derive the branch name from $ARGUMENTS as before:
-     `feature/<short-description>`
+2. Check out main and pull latest. Create a new branch from main
+   following the Git Branch Naming Rules in CLAUDE.md: if $ARGUMENTS
+   starts with a ticket identifier (matching `[A-Z]+-\d+`), use the
+   ticket-derived format (embed it, lowercased); otherwise the plain
+   `feature/<short-description>` form. Derive the description from
+   $ARGUMENTS.
 3. Run tests to verify clean baseline. If tests fail, STOP and report —
    don't start work on a broken base.
 4. After branch creation, report:

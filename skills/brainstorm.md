@@ -3,9 +3,8 @@ name: brainstorm
 version: 1.3 # bump on meaningful changes
 description: >
   Explore and refine what to build before writing code through Socratic
-  questioning. Use when ONLY when the user runs /brainstorm or when 
-  when explicitly asked to brainstorm. Do NOT auto-invoke for any other 
-  situation.
+  questioning.
+disable-model-invocation: true
 model: opus
 ---
 
@@ -14,7 +13,26 @@ model: opus
 Socratic design refinement — explore _what_ to build before anyone writes code.
 Master-only. Interactive. No code changes, no clones.
 
-Announce: "I'm using the brainstorm skill to help you refine your idea into a design doc."
+## Phase 0: Correct the Branch Name (ticket work only)
+
+If the user is working from a Linear ticket, make the current branch embed
+the ticket identifier before anything else. This is what lets Linear's
+GitHub integration auto-link the branch/PR, and it ensures the design doc
+below gets tagged with the right branch.
+
+1. Get the identifier from the ticket reference (e.g. `TIC-123`).
+2. `git branch --show-current`. **Skip the rest** if either:
+   - the branch already embeds the identifier (e.g. `feature/tic-123-…`), or
+   - you're on `main`/`master` (traditional flow — `/branch` creates the
+     branch later; there's nothing to rename yet).
+3. Otherwise the branch is a generic/auto-generated name (e.g. a fresh
+   Conductor workspace branch). Propose a rename following the **Git Branch
+   Naming Rules in CLAUDE.md** — `feature/<id>-<short-slug>` (or `fix/…`),
+   identifier lowercased, slug derived from the ticket title. Confirm the
+   name with the user, then `git branch -m <new-name>`. If the branch was
+   already pushed, note that the remote needs updating too.
+
+No ticket, or no rename needed → go straight to Phase 1.
 
 ## Phase 1: Gather Context Before You Start
 
