@@ -1,6 +1,6 @@
 ---
 name: close-out
-version: 1.4 # bump on meaningful changes
+version: 1.5 # bump on meaningful changes
 description: >
   Single entry point to close out ticket/feature work after
   review-changes and wrap-up have run. Detects whether a PR exists yet
@@ -126,11 +126,12 @@ If blocking issues exist: STOP and report. Do NOT proceed.
 
 **If pr:**
 - Read and run the archive-docs skill inline FIRST, using the current
-  branch as the identifier — no ambiguity, we're on it. This bundles
-  the archive commit into the PR itself, so it lands on main via the
-  normal merge instead of needing special handling afterward (a
-  worktree can't check out main to commit there directly — see Section
-  5). If archive-docs finds nothing to archive, that's fine, continue.
+  branch as the identifier — no ambiguity, we're on it. Let it run its
+  own commit. This bundles the archive commit into the PR itself, so it
+  lands on main via the normal merge instead of needing special
+  handling afterward (a worktree can't check out main to commit there
+  directly — see Section 5). If archive-docs finds nothing to archive,
+  that's fine, continue.
 - `git push origin <branch>`
 - Open the PR. For ticket work, title format `[{identifier}] {issue
   title}` (see Working From Tickets in CLAUDE.md) and include a direct

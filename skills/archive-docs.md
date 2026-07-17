@@ -1,10 +1,10 @@
 ---
 name: archive-docs
-version: 1.2 # bump on meaningful changes
+version: 1.3 # bump on meaningful changes
 description: >
   Archive the design and plan docs for one merged ticket/branch by moving
   them to docs/designs/done/ and docs/plans/done/. Use when the user runs
-  /archive-docs, when invoked inline from branch-finish after a
+  /archive-docs, when invoked inline from close-out after a
   successful merge, or when the user says a PR/ticket has merged and
   asks to clean up its docs. Match only on the Ticket/Branch header
   embedded in the docs — never guess by filename. Do NOT auto-invoke for
@@ -23,7 +23,7 @@ thread.
 
 | Case | Resolution |
 |---|---|
-| Called inline (e.g. from branch-finish) | Use the branch name already known in that session |
+| Called inline (e.g. from close-out) | Use the branch name already known in that session |
 | User passed a ticket ID (e.g. `TIC-2`) | Match on `Ticket:` |
 | User passed a branch name | Match on `Branch:` |
 | User passed a PR URL/number | `gh pr view <ref> --json headRefName` → match on that branch |
@@ -74,5 +74,7 @@ git mv docs/designs/<name>.md docs/designs/done/<name>.md
 git mv docs/plans/<name>.md docs/plans/done/<name>.md
 ```
 
-Commit: `chore: archive docs for [identifier]`. Skip the commit if
-called inline — the caller commits.
+Commit the move: `chore: archive docs for [identifier]`. Always make
+this commit yourself — every caller (close-out is the only one) wants
+the archive as its own standalone commit, never folded into a larger
+one. The caller relies on this commit existing.
