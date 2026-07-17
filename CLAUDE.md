@@ -2,7 +2,7 @@
 
 ## About Me
 
-I am a product designer who builds small Ruby on Rails SaaS apps via vibe coding. I am NOT a full-stack developer — explain technical decisions when they matter. Ruby version manager: mise.
+I am a product designer who builds small Ruby on Rails SaaS apps via vibe coding. I am NOT a full-stack developer — explain the reasoning behind significant technical decisions. Ruby version manager: mise.
 
 ## How I Want You to Work
 
@@ -14,59 +14,39 @@ I am a product designer who builds small Ruby on Rails SaaS apps via vibe coding
 
 ### Working From Tickets (Linear)
 
-When we start a new task and I give you a Linear ticket reference,
-follow this workflow:
+Given a Linear ticket, the flow is: `/brainstorm` (reads the ticket and,
+in its Phase 0, makes the branch name embed the identifier) → `/write-plan`
+→ `/execute-plan` → `/review-changes` → `/wrap-up` → `/close-out`.
 
-1. Fetch the issue (Linear MCP). Read the full description and note its
-   identifier (e.g. `TIC-123`) and title.
-2. Run `/branch` with the identifier and a short description (e.g.
-   `/branch TIC-123 add account settings`). This embeds the identifier
-   in the branch name — required for Linear's GitHub integration to
-   auto-link the branch/PR to the issue. See Git Branch Naming Rules.
-   Working in Conductor: skip this — the workspace already created the
-   branch. Just make sure the workspace/branch name embeds the
-   identifier when you create it, so auto-linking still works.
-3. Do NOT manually update the issue's status or write the branch name
-   back into Linear — the GitHub integration does this automatically
-   once the identifier appears in the branch name (step 2 covers this).
-4. When I say, plan/implement the task.
-5. When I say the work is done, prompt: "Ready to wrap up — want to run
-   /review-changes and then /wrap-up?"
-6. Once wrap-up finishes, run `/close-out` to open the PR. PR title
-   format: `[{identifier}] {issue title}` e.g. `[TIC-123] Add account
-   settings form`. Include the identifier in the PR title (Linear
-   matches on title/description too, not just branch name) and a
-   direct link to the Linear issue in the PR description.
-7. Do NOT manually write the PR URL back into Linear — the GitHub
-   integration attaches it automatically once linked.
-8. I review and merge the PR myself on GitHub — Claude does not merge
-   ticket work. Once merged, tell me or run `/close-out` again (any
-   thread) to sync main, delete the branch, and archive the design/plan
-   docs.
+Rules that hold throughout, regardless of which commands I run:
+
+- The ticket identifier MUST appear in the branch name (see Git Branch
+  Naming Rules) — that's what lets Linear's GitHub integration auto-link
+  the branch and PR.
+- Never manually set the ticket's status or paste the branch/PR back into
+  Linear. The GitHub integration does both automatically once the
+  identifier is in the branch name.
+- I review and merge PRs myself on GitHub — Claude never merges ticket
+  work. After a PR is merged, run `/close-out` again (any thread) to sync
+  main, delete the branch, and archive the design/plan docs.
 
 ### Working From My Prototypes
 
 When I provide an HTML page or un-wired Rails view as a starting point:
 
 - My layout, visual hierarchy, and design decisions are FINAL. Do not deviate from it. Do not redesign, rearrange, or "improve" the visual design.
-- Your job: upgrade the implementation — replace raw HTML with ViewComponents from the catalog, wire up real data, add Stimulus controllers, connect routes and controllers, write tests. Ask questions if something isn't clear.
+- Your job: upgrade the implementation to production Rails (real data, catalog components, Stimulus, routes, tests) — see the style-ui skill for the step-by-step. Ask if anything's unclear.
 - If a component in my prototype doesn't exist in the component library, follow the "When a Base Component Is Missing" rule in style-ui.
 - If something in my prototype seems wrong or broken (accessibility issue, missing state, etc.), ask me what to do — don't silently fix it.
 
 ## Executing Plans
 
-Plans in `docs/plans/` are executed via `/execute-plan`. Do not auto-execute plans without the command.
+Plans in `docs/plans/` are executed via `/execute-plan`.
 
-## Testing (Non-Negotiable)
+## Testing & Verification (Non-Negotiable)
 
-- Every feature, bug fix, or behavior change MUST have a corresponding test.
-- TDD: write the test first, then implement. See write-tests skill.
-- Never report a task as "done" without running `bin/rails test`.
-
-## Verification (Non-Negotiable)
-
-- NEVER claim work is "done", "passing", or "fixed" without running the verification command IN THE CURRENT MESSAGE and showing the output.
-- "I believe tests pass" is not verification. Run the command and show the result.
+- Every feature, bug fix, or behavior change MUST have a corresponding test. TDD: test first, then implement (see write-tests skill).
+- NEVER claim work is "done", "passing", or "fixed" without running the check (`bin/rails test`) IN THE CURRENT MESSAGE and showing the output. "I believe tests pass" is not verification.
 - Before reporting a task complete: `git diff` to confirm what changed.
 
 ## Git Branch Naming Rules
@@ -81,10 +61,11 @@ Plans in `docs/plans/` are executed via `/execute-plan`. Do not auto-execute pla
 
 ## Universal Rules
 
-- When in doubt, write boring, obvious code. No metaprogramming, no clever abstractions, no custom DSLs.
+- When in doubt, write boring, obvious Rails code — default to the simplest Rails-conventional approach. No metaprogramming, no clever abstractions, no custom DSLs.
+- My apps use Jumpstart Pro (JSP). Check for existing JSP functionality before building — especially auth, billing, notifications, and admin.
 - If something seems risky or unclear, ASK ME instead of guessing.
 - Never use --force or destructive commands without explicit approval.
-- Use Context7 MCP when you need library/API documentation or examples. If Context7 fails on first attempt, don't retry — tell the user and reference existing code patterns where applicable for the rest of this session instead of guessing at API usage. Exception: for information on existing UI components, use `docs/COMPONENT_CATALOG.md` — do NOT look up RailsBlocks, Flowbite, or other external component libraries.
+- Use Context7 MCP for library/API docs; if it fails once, don't retry — tell me and lean on existing code patterns instead of guessing. Exception: for UI components use `docs/COMPONENT_CATALOG.md`, not external docs; for a new component, /create-component checks RailsBlocks first, building from scratch only if it's missing.
 - Stimulus for JS interactivity. No jQuery, Alpine, React, or other frameworks.
 - Use `# AIDEV-NOTE:` comments for non-obvious decisions in code.
 
@@ -92,9 +73,7 @@ Plans in `docs/plans/` are executed via `/execute-plan`. Do not auto-execute pla
 
 - Don't refactor code that isn't part of the current task.
 - Don't add gems without asking me first.
-- Don't create migration rollback strategies unless I ask.
-- Don't build "nice to have" features that aren't in the plan.
-- Don't explain code changes to me unless I ask why.
-- Don't build for hypothetical future requirements. Build what the plan says. If you think something WILL be needed, note and ask about it — don't build it.
+- Build what the plan says — no "nice to haves," no building for hypothetical future needs. If you think something WILL be needed, note it and ask; don't build it.
+- Don't narrate routine code changes unless I ask (explaining a significant decision is still welcome).
 - Don't duplicate logic. If the same pattern exists elsewhere in the app, extract it or reuse it. Check before creating.
 - Don't commit if you're a clone. Stage changes and report complete. The master commits at the end of review-changes.

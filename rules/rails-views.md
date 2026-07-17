@@ -13,7 +13,7 @@ paths:
 - Each component: `app/components/name_component.rb` + `.html.erb`
 - Keep components small and composable — `CardComponent` that accepts a
   block, not `CardWithHeaderAndFooterAndActionsComponent`
-- NO `<script>` tags. NO inline `style=""`. No jQuery, Alpine.js, React, or other frameworks.
+- NO `<script>` tags. NO inline `style=""`.
 - Use Rails form helpers (`form_with`), not raw HTML forms.
 
 # Accessibility

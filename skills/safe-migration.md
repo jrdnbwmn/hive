@@ -85,6 +85,9 @@ the habit now.
 | Rename column | Add new column → migrate data → update code → drop old column. (Dev-only: `rename_column` is acceptable.) |
 | Raw SQL (`execute`) | Avoid unless absolutely necessary. If you must, add a comment explaining why. |
 
+Don't build rollback strategies beyond a simple `down` method unless the
+user asks — Rails' reversible `change` migrations cover the common case.
+
 ## Data Backfills
 
 Schema changes and data changes have different failure modes. Keep them
