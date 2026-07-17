@@ -7,10 +7,8 @@ description: >
   and what state it's in, then runs the right flow: opens a PR (or
   merges/discards for non-ticket work) if none exists, reports status
   if one's open and unmerged, or syncs main + deletes the branch +
-  archives docs if it's been merged. Use when the user runs /close-out,
-  or says they're done with a branch/ticket and want to wrap it up — in
-  any thread, cold or mid-session. Do NOT auto-invoke; this can push,
-  open PRs, delete branches, and move files.
+  archives docs if it's been merged.
+disable-model-invocation: true
 model: sonnet
 ---
 
@@ -77,14 +75,16 @@ branch you're about to throw away.
 
 ### 3B. Preflight
 
-Quick verification that wrap-up completed cleanly:
+Confirm wrap-up completed cleanly. The primary gate is the working tree:
 
 - No uncommitted changes (if any exist, ask: "There are uncommitted
-  changes, run /wrap-up first?")
-- Tests pass: `bin/rails test`
-- No pending migrations: `bin/rails db:migrate:status`
-
-If any of these fail, STOP and report.
+  changes, run /wrap-up first?" and STOP). A clean tree means wrap-up
+  committed and its gates — full `bin/rails test` and `db:migrate:status`
+  — already passed on this exact code, so don't re-run them here.
+- **Exception — running cold** (fresh thread, or you can't confirm
+  wrap-up ran this session): run `bin/rails test` and
+  `bin/rails db:migrate:status` yourself, since nothing upstream did.
+  STOP and report on any failure.
 
 ### 3C. Production Readiness
 
@@ -134,8 +134,9 @@ If blocking issues exist: STOP and report. Do NOT proceed.
   that's fine, continue.
 - `git push origin <branch>`
 - Open the PR. For ticket work, title format `[{identifier}] {issue
-  title}` (see Working From Tickets in CLAUDE.md) and include a direct
-  link to the Linear issue in the description. Otherwise `gh pr create --fill`.
+  title}` (e.g. `[TIC-123] Add account settings form`) — Linear matches
+  on the PR title too, not just the branch — and include a direct link to
+  the Linear issue in the description. Otherwise `gh pr create --fill`.
 - Stay on the branch.
 - Say "Pushed and PR created. Once it's merged on GitHub, tell me or
   run `/close-out` again (any thread) — I'll check whether anything

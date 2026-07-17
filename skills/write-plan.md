@@ -2,11 +2,9 @@
 name: write-plan
 version: 1.4 # bump on meaningful changes
 description: >
-  Create a detailed implementation plan from an approved design. Use 
-  ONLY when user runs /write-plan or asks for a plan for a multi-file, multi-model change. Do NOT use 
-  for small changes, tweaks, bug fixes, UI adjustments,
-  single-file edits, or when the user's request is specific enough to
-  implement directly.
+  Create a detailed implementation plan from an approved design, for a
+  multi-file or multi-model change.
+disable-model-invocation: true
 model: opus
 ---
 
@@ -15,8 +13,6 @@ model: opus
 Produce a plan detailed enough that a clone — with zero conversation
 history and no judgment — can pick up a single task and execute it
 correctly.
-
-Announce: "I'm using the write-plan skill to create an implementation plan from your design."
 
 ## Output Template
 

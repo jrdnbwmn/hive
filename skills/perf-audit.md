@@ -3,7 +3,7 @@ name: perf-audit
 version: 1.0 # bump on meaningful changes
 description: >
   Invoked by the /perf-audit command.
-  Do NOT auto-invoke for any other situation.
+disable-model-invocation: true
 model: sonnet
 ---
 

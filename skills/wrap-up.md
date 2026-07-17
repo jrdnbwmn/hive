@@ -4,7 +4,8 @@ version: 1.2 # bump on meaningful changes
 description: >
   End-of-session ritual: ship, remember, improve. Commits code, captures
   learnings, logs system improvements for manual review, and documents
-  changes. Use ONLY when the user runs /wrap-up. Do NOT auto-invoke.
+  changes.
+disable-model-invocation: true
 model: sonnet
 ---
 

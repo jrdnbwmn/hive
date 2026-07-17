@@ -16,8 +16,6 @@ Two-stage review: determine scope, check the work matches the spec, then check
 the code is good. Spec compliance comes before code check — don't proceed to
 code quality until the spec passes.
 
-Announce: "I'm using the review-changes skill to run a review."
-
 ## Phase 1: Determine Review Scope and Gather Context
 
 | Invoked as | What to diff |
