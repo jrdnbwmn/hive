@@ -29,9 +29,12 @@ uses a ViewComponent-based design system with design tokens.
 5. If no component exists, see "When a Base Component Is Missing."
 6. Check `app/assets/tailwind/theme/_tokens.css` for design tokens.
 
-Do NOT reference RailsBlocks, Flowbite, or any external component
-library. `docs/COMPONENT_CATALOG.md` and `app/components/` are the
-only sources of truth.
+When building features, `docs/COMPONENT_CATALOG.md` and `app/components/`
+are the sources of truth — don't reach for external libraries inline.
+New base components are a separate, deliberate step: they come from
+RailsBlocks via /create-component (which checks RailsBlocks first and
+only builds from scratch if RailsBlocks lacks the component). See "When
+a Base Component Is Missing" below.
 
 ### When a Base Component Is Missing
 
@@ -67,7 +70,8 @@ Is Missing" above.
 
 ## Working From Prototypes
 
-When the user gives a raw HTML or un-wired ERB prototype:
+The user's design decisions are FINAL (see "Working From My Prototypes"
+in CLAUDE.md). When the user gives a raw HTML or un-wired ERB prototype:
 
 1. Read the prototype and identify every UI element
 2. Map each element to a component in COMPONENT_CATALOG.md:
