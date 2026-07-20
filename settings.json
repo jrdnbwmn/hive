@@ -24,7 +24,11 @@
       "Bash(mv *)",
       "Bash(gh pr create *)"
     ],
-    "deny": ["Read(.env*)", "Write(.env*)", "Bash(rm -rf *)"]
+    "deny": [
+      "Read(.env*)",
+      "Write(.env*)",
+      "Bash(rm -rf *)"
+    ]
   },
   "model": "opusplan",
   "hooks": {
@@ -73,6 +77,7 @@
   "enabledPlugins": {},
   "extraKnownMarketplaces": {},
   "tui": "fullscreen",
+  "autoCompactEnabled": true,
   "inputNeededNotifEnabled": true,
   "agentPushNotifEnabled": true
 }
