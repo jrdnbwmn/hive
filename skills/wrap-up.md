@@ -74,10 +74,22 @@ Route each learning through these questions in order — stop at first match:
 | # | Question | Route to |
 |---|----------|----------|
 | 1 | Ephemeral? (local URLs, WIP, credentials) | `CLAUDE.local.md` |
-| 2 | Permanent project decision? | Project `CLAUDE.md` |
-| 3 | Debugging insight or quirk for this project? | `CLAUDE.local.md` |
+| 2 | Permanent project decision? | `AGENTS.md` if the project follows the AGENTS.md pattern (see below), else project `CLAUDE.md` |
+| 3 | Debugging insight or quirk for this project? | `AGENTS.md` if the project follows the AGENTS.md pattern, else `CLAUDE.local.md` |
 | 4 | Duplicates existing content? | `@import` reference only |
 | 5 | Everything else (skills, commands, rules, global config) | Append to `~/.claude/system-learnings.md` |
+
+**Detecting the AGENTS.md pattern:** if the project has an `AGENTS.md` at the
+repo root and `CLAUDE.md` does nothing but reference it (e.g. `@AGENTS.md`),
+this project treats `AGENTS.md` as the single source of truth for
+project-specific content, kept deliberately in one file so multiple coding
+agents (Claude, Codex, etc.) read the same conventions without duplication.
+In that case route 2 and 3 target `AGENTS.md`, and `CLAUDE.md` itself should
+never gain new project-specific content — if you catch yourself about to add
+anything beyond the `@AGENTS.md` reference to `CLAUDE.md`, redirect it to
+`AGENTS.md` instead. If the project has no `AGENTS.md` (or `CLAUDE.md`
+contains project-specific content of its own), fall back to the original
+routing (`CLAUDE.md` / `CLAUDE.local.md`).
 
 **Before writing to CLAUDE.local.md (routes 1 and 3):** check whether
 this is a linked worktree — `[ "$(git rev-parse --git-dir)" !=
@@ -135,8 +147,8 @@ update README for user-facing changes. If nothing warrants it, say
 
 ### Changelog
 
-For any changes to project `CLAUDE.md` or `CLAUDE.local.md`, append a
-one-line entry to `~/.claude/CHANGELOG.md`:
+For any changes to project `AGENTS.md`, `CLAUDE.md`, or `CLAUDE.local.md`,
+append a one-line entry to `~/.claude/CHANGELOG.md`:
 
 ```
 YYYY-MM-DD | [file changed + version if applicable] | [what and why]
@@ -157,8 +169,10 @@ If entries exceed 20, delete the oldest until 20 remain.
    ```
 2. Wait for user feedback. Process any additions.
 3. If any files changed in Phase 2, commit: `chore: session learnings`
-4. Delete `.claude/session-learnings.md` ONLY after commit and push
-   succeed. If either fails, keep the file for next wrap-up.
+4. Delete `.claude/session-learnings.md` AND `.codex/session-learnings.md`
+   (whichever exist) ONLY after commit and push succeed — both have now
+   been merged into their routed destinations. If either commit or push
+   fails, keep both files for next wrap-up.
 5. If system learnings were logged:
    "System learnings appended to ~/.claude/system-learnings.md —
    review and apply when ready."
