@@ -69,9 +69,9 @@ The plan you produce MUST follow this structure exactly:
 
 Before writing anything, gather context in this order:
 
-1. **Find the design.** First reference the user-specified path. If no design file specified, look for an active doc in `docs/designs/`
+1. **Find and read the design.** First reference the user-specified path. If no design file specified, look for an active doc in `docs/designs/`
    (skip `done/`). If no file is specified or found, check if there is a clear, specific description from the user. If none of those exist:
-   stop. "I need an approved design before planning. Want to brainstorm first?"
+   stop. "I need an approved design before planning. Want to brainstorm first?" While reading the design doc, determine if it involves any UI/view work — anything touching views, forms, partials, components, pages, emails, admin screens, or JS/Stimulus controllers. If the doc is ambiguous or doesn't clearly rule out UI work, treat it as UI work. Only skip steps 3–4 if the design doc is clearly and entirely backend/data-only (e.g., a migration, background job, API endpoint with no new views, or internal refactor).
 2. **Read architecture diagrams** in `docs/architecture/` (if they exist):
    `app-structure.mermaid` (where things live, directory conventions), `data-model.mermaid` (existing models and associations), `routes-map.mermaid` (current controllers and routing).
 3. **Scan the component catalog.** Read the Quick Reference table in
@@ -97,8 +97,9 @@ define what's NOT in scope, the task is too vague — split or refine it.
 
 ### Component Rule
 
-Before writing any UI task, check the catalog. If a needed component
-doesn't exist, do NOT include it inline. Add a prerequisite task:
+Before writing any UI task, reference the catalog scan from Pre-Flight
+step 3 — do not re-read the catalog file. If a needed component doesn't
+exist in what you already scanned, do NOT include it inline. Add a prerequisite task:
 "[Master] Run /create-component to add [Component] to the component
 library" — or flag it as a blocker. Assign it to Master, not Clone —
 it touches shared infra other tasks will depend on.
