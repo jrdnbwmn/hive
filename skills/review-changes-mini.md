@@ -8,7 +8,6 @@ description: >
   plans, or when the user explicitly asks for a mini review. For full
   security and Rails-pattern review, use /review-changes instead.
   Do NOT auto-invoke for any other situation.
-disable-model-invocation: true
 model: sonnet
 ---
 
