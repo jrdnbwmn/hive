@@ -51,13 +51,10 @@ Plans in `docs/plans/` are executed via `/execute-plan`.
 
 ## Git Branch Naming Rules
 
-- Feature work: feature/<short-description>
-- Bug fix: fix/<short-description>
-- Chore: chore/<short-description>
-- Ticket-derived work (Linear): feature/<identifier>-<short-description>
-  or fix/<identifier>-<short-description>, identifier lowercased (e.g.
-  `feature/tic-123-add-account-settings`). Required for Linear's GitHub
-  integration to auto-link — see Working From Tickets.
+- <type>/<slug>
+- Ticket-derived work (Linear): <type>/<identifier>-<short-description>, identifier lowercased (e.g.`feature/tic-123-add-account-settings`).
+- Type = `feature` (feature work), `fix` (bug fix), or `chore`.
+- Slug = short, kebab-case description.
 
 ## Universal Rules
 

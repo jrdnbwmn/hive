@@ -136,7 +136,9 @@ Default to Master when uncertain.
    values the same way brainstorm does (ticket identifier if known,
    `git branch --show-current` otherwise) and add the header to both
    files.
-3. Save to `docs/plans/<feature-name>.md` and commit: `docs: add plan for <feature>`.
+3. Save to `docs/plans/<feature-name>.md`. Commit both docs together:
+   `git add docs/designs/<feature-name>.md docs/plans/<feature-name>.md`
+   `git commit -m "docs: add design and plan for <feature>"`
 4. Add to the top of the design doc: `> Plan created: docs/plans/<feature-name>.md`
 5. Tell the user: **"Plan approved and saved. Run /execute-plan to start."**
 

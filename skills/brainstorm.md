@@ -13,27 +13,6 @@ model: opus
 Socratic design refinement — explore _what_ to build before anyone writes code.
 Master-only. Interactive. No code changes, no clones.
 
-## Phase 0: Correct the Branch Name (ticket work only)
-
-If the user is working from a Linear ticket, make the current branch embed
-the ticket identifier before anything else. This is what lets Linear's
-GitHub integration auto-link the branch/PR, and it ensures the design doc
-below gets tagged with the right branch.
-
-1. Get the identifier from the ticket reference (e.g. `TIC-123`).
-2. `git branch --show-current`. **Skip the rest** if either:
-   - the branch already embeds the identifier (e.g. `feature/tic-123-…`), or
-   - you're on `main`/`master` (traditional flow — `/branch` creates the
-     branch later; there's nothing to rename yet).
-3. Otherwise the branch is a generic/auto-generated name (e.g. a fresh
-   Conductor workspace branch). Propose a rename following the **Git Branch
-   Naming Rules in CLAUDE.md** — `feature/<id>-<short-slug>` (or `fix/…`),
-   identifier lowercased, slug derived from the ticket title. Confirm the
-   name with the user, then `git branch -m <new-name>`. If the branch was
-   already pushed, note that the remote needs updating too.
-
-No ticket, or no rename needed → go straight to Phase 1.
-
 ## Phase 1: Gather Context Before You Start
 
 If `docs/architecture/` exists, read the Mermaid diagrams first:
@@ -76,7 +55,7 @@ Ask questions to surface what you don't know. Don't assume. Cover:
   user is unauthorized?
 - **Gaps:** What is the user not thinking about? Unknown unknowns?
 
-2-4 questions per round. Use as many rounds as necessary. Go deeper on unclear answers before moving on.
+2-5 questions per round. Use as many rounds as necessary. Go deeper on unclear answers before moving on.
 
 ## Phase 3: Explore
 
@@ -89,7 +68,6 @@ If no prototype: propose 2-3 approaches with honest tradeoffs:
 
 1. **Simplest version** — minimum that solves the core problem
 2. **Recommended approach** — what you'd actually pick and why
-3. **Bigger vision** — what this looks like if we go further (scope for later)
 
 For each: what it gives you, what it costs, what it leaves out.
 Be specific — "more complex: adds 2 models and 1 controller" not just "more complex."
@@ -122,15 +100,14 @@ be found accurately later, from any thread:
 
 - **Ticket:** the Linear identifier if one was provided this session
   (e.g. `TIC-123`), otherwise `None`.
-- **Branch:** current branch (`git branch --show-current`) if not on
-  `main`/`master`, otherwise `TBD`.
+- **Branch:** run `git branch --show-current` to get the current branch name.
 
 Save to `docs/designs/<feature-name>.md`, with the tags as the first two
 lines of the file, above the heading:
 
 ```
 > Ticket: <ticket ID or "None">
-> Branch: <branch name or "TBD">
+> Branch: <branch name>
 
 # Feature: <name>
 
@@ -166,8 +143,6 @@ Only include what affects implementation. Omit section if
 no feature doc exists.>
 ```
 
-Commit the design file: `docs: add design for <feature>`.
-
 End with: "Design approved and saved in [path]. Ready to plan?
 Run `/write-plan`."
 
@@ -179,7 +154,7 @@ Run `/write-plan`."
 - Do NOT present more than one design section at a time without checking in.
 - **Scope guard:** If the feature touches 3+ models or 5+ screens
   or keeps growing — stop and say so. Propose an MVP scope and a "Deferred"
-  list for everything else, then let themd decide what to do.
+  list for everything else, then let them decide what to do.
 - If the user says "just build it" — push back once. Five minutes of
   brainstorming prevents hours of rework. If they insist, respect it and
   hand off to `write-plan` with whatever context you have.
