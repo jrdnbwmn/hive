@@ -46,6 +46,7 @@ Plans in `docs/plans/` are executed via `/execute-plan`.
 ## Testing & Verification (Non-Negotiable)
 
 - Every feature, bug fix, or behavior change MUST have a corresponding test. TDD: test first, then implement (see write-tests skill).
+- Test names describe behavior from the user's perspective, not the method under test (e.g. "user can subscribe to a plan", not "subscription create").
 - NEVER claim work is "done", "passing", or "fixed" without running the check (`bin/rails test`) IN THE CURRENT MESSAGE and showing the output. "I believe tests pass" is not verification.
 - Before reporting a task complete: `git diff` to confirm what changed.
 
