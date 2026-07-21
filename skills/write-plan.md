@@ -26,10 +26,10 @@ The plan you produce MUST follow this structure exactly:
 
 ## Status
 
-| Task | Description | Assign | Done |
-| ---- | ----------- | ------ | ---- |
-| 1    | ...         | Master |      |
-| 2    | ...         | Clone  |      |
+| Task | Phase | Checkpoint | Description | Assign | Done |
+| ---- | ----- | ---------- | ----------- | ------ | ---- |
+| 1    | 1     | 1          | ...         | Master |      |
+| 2    | 1     | 1          | ...         | Clone  |      |
 
 ## Prerequisites
 
@@ -106,7 +106,7 @@ it touches shared infra other tasks will depend on.
 ### Phasing
 
 If the plan exceeds ~6 tasks, break into phases (e.g. Phase 1: MVP, Phase 2:
-Polish). Each phase must be independently deployable. Explicity label phases in the plan doc.
+Polish). Each phase must be independently deployable.
 
 ### Review Checkpoints
 
@@ -114,7 +114,7 @@ Group tasks into review checkpoints of ≤3 tasks each. Align checkpoints with
 phase boundaries first — split further only if a phase exceeds 3 tasks,
 preferring splits at dependency boundaries (or other natural breakpoints)
 over splitting tightly-coupled work. A single-task phase is still its own
-checkpoint. Explicitly label checkpoints in the plan doc.
+checkpoint.
 
 On the final task of each checkpoint group — including single-task
 checkpoints — add an instruction to the task to run review-changes-mini (along with with checkpoint group it is reviewing).
