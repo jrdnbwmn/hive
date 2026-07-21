@@ -58,7 +58,6 @@ The plan you produce MUST follow this structure exactly:
 1. **Test:** [test file path, what to assert — be specific]
 2. **Implement:** [code to write, exact file paths]
 3. **Verify:** `bin/rails test [specific test file]`
-4. **Review:** After completion, ALWAYS run review-changes before proceeding. This is not optional.
 
 ## Task Dependencies
 
@@ -106,8 +105,19 @@ it touches shared infra other tasks will depend on.
 
 ### Phasing
 
-If the plan exceeds ~7 tasks, break into phases (Phase 1: MVP, Phase 2:
-Polish). Each phase must be independently deployable.
+If the plan exceeds ~6 tasks, break into phases (e.g. Phase 1: MVP, Phase 2:
+Polish). Each phase must be independently deployable. Explicity label phases in the plan doc.
+
+### Review Checkpoints
+
+Group tasks into review checkpoints of ≤3 tasks each. Align checkpoints with
+phase boundaries first — split further only if a phase exceeds 3 tasks,
+preferring splits at dependency boundaries (or other natural breakpoints)
+over splitting tightly-coupled work. A single-task phase is still its own
+checkpoint. Explicitly label checkpoints in the plan doc.
+
+On the final task of each checkpoint group — including single-task
+checkpoints — add an instruction to the task to run review-changes-mini (along with with checkpoint group it is reviewing).
 
 ### Assigning Master vs Clone
 
@@ -130,12 +140,7 @@ Default to Master when uncertain.
 
 1. Present the full plan. Wait for explicit approval.
 2. Read the `Ticket:`/`Branch:` header from the top of the design doc.
-   Copy both lines verbatim into the top of the plan doc — this keeps
-   the pair matchable later even from a thread with no memory of this
-   session. If the design doc has no header (predates tagging), derive
-   values the same way brainstorm does (ticket identifier if known,
-   `git branch --show-current` otherwise) and add the header to both
-   files.
+   Copy both lines verbatim into the top of the plan doc.
 3. Save to `docs/plans/<feature-name>.md`. Commit both docs together:
    `git add docs/designs/<feature-name>.md docs/plans/<feature-name>.md`
    `git commit -m "docs: add design and plan for <feature>"`

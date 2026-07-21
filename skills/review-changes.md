@@ -7,6 +7,7 @@ description: >
   (/review-changes), by other skills (execute-plan, wrap-up), by
   task plans, or when the user explicitly asks to review changes.
   Do NOT auto-invoke for any other situation.
+disable-model-invocation: true
 model: sonnet
 ---
 
