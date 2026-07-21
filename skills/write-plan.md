@@ -142,7 +142,7 @@ Default to Master when uncertain.
 1. Present the full plan. Wait for explicit approval.
 2. Read the `Ticket:`/`Branch:` header from the top of the design doc.
    Copy both lines verbatim into the top of the plan doc.
-3. Save to `docs/plans/<feature-name>.md`. Commit both docs together:
+3. Save plan doc to `docs/plans/<feature-name>.md`. Commit both design and plan docs together:
    `git add docs/designs/<feature-name>.md docs/plans/<feature-name>.md`
    `git commit -m "docs: add design and plan for <feature>"`
 4. Add to the top of the design doc: `> Plan created: docs/plans/<feature-name>.md`
