@@ -36,7 +36,6 @@ When I provide an HTML page or un-wired Rails view as a starting point:
 
 - My layout, visual hierarchy, and design decisions are FINAL. Do not deviate from it. Do not redesign, rearrange, or "improve" the visual design.
 - Your job: upgrade the implementation to production Rails (real data, catalog components, Stimulus, routes, tests) — see the style-ui skill for the step-by-step. Ask if anything's unclear.
-- If a component in my prototype doesn't exist in the component library, follow the "When a Base Component Is Missing" rule in style-ui.
 - If something in my prototype seems wrong or broken (accessibility issue, missing state, etc.), ask me what to do — don't silently fix it.
 
 ## Executing Plans
@@ -56,6 +55,13 @@ Plans in `docs/plans/` are executed via `/execute-plan`.
 - Ticket-derived work (Linear): <type>/<identifier>-<short-description>, identifier lowercased (e.g.`feature/tic-123-add-account-settings`).
 - Type = `feature` (feature work), `fix` (bug fix), or `chore`.
 - Slug = short, kebab-case description.
+
+## Hotwire Interaction Patterns
+
+- Turbo Frames for partial page updates (inline editing, tabs, modals)
+- Turbo Streams for real-time updates and multi-element changes
+- Stimulus for client-side-only interactivity (toggles, validation, clipboard)
+- Don't build SPAs. Server-rendered HTML + Hotwire is the architecture.
 
 ## Universal Rules
 

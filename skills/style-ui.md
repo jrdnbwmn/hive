@@ -1,6 +1,6 @@
 ---
 name: style-ui
-version: 1.1 # bump on meaningful changes
+version: 1.1
 description: >
   UI consistency and design system enforcement. Use when building or
   editing any user-facing interface — pages, components, forms, layouts.
@@ -20,8 +20,7 @@ uses a ViewComponent-based design system with design tokens.
 1. Read the Quick Reference table in `docs/COMPONENT_CATALOG.md`.
    Do NOT read the entire catalog — just the table.
 2. If a component exists, read ONLY its detailed section. If that
-   doesn't answer your questions, check the source in
-   `app/components/`.
+   doesn't answer your questions, check the source in `app/components/`.
 3. If a component exists that does what you need, USE IT.
    Don't build a new one.
 4. If a component exists but needs modification, modify it — don't
@@ -29,65 +28,54 @@ uses a ViewComponent-based design system with design tokens.
 5. If no component exists, see "When a Base Component Is Missing."
 6. Check `app/assets/tailwind/theme/_tokens.css` for design tokens.
 
-When building features, `docs/COMPONENT_CATALOG.md` and `app/components/`
-are the sources of truth — don't reach for external libraries inline.
-New base components are a separate, deliberate step: they come from
-RailsBlocks via /create-component (which checks RailsBlocks first and
-only builds from scratch if RailsBlocks lacks the component). See "When
-a Base Component Is Missing" below.
+`docs/COMPONENT_CATALOG.md` and `app/components/` are the sources of
+truth — don't reach for external libraries inline. New base components
+come from RailsBlocks via `/create-component`, never mid-task.
 
 ### When a Base Component Is Missing
 
-If you need a generic UI element (form input, feedback element, overlay,
-navigation pattern) that doesn't exist in the catalog:
-
-- Do NOT build it from scratch, and do NOT run /create-component
-  yourself mid-task — adding a base component is a separate, deliberate
-  action, never something to fold into unrelated work.
-- STOP and report: "This task needs a [component type] that doesn't
-  exist in the component library. Run /create-component to add it,
-  then re-run this task."
-- Continue with other parts of the task if possible, using a placeholder
-  comment: `<%# TODO: replace with [ComponentName] when available %>`
+- Do NOT build it from scratch.
+- Propose the new component: name it, describe what it should do, and
+  explain why no existing catalog component covers this need.
+- If running interactively: STOP and wait for approval. Do not proceed with implementation or run /create-component until the user explicitly approves. Once approved, run /create-component <name and description> yourself. After the component is created, resume the original task using it.
+- If running as a subagent/clone: STOP and return the proposal as your
+  final result — do not attempt to wait for approval or run
+  /create-component. Clearly flag this in your result, e.g.:
+  "BLOCKED — missing component: [name]. Reason: [why]. Awaiting approval to run /create-component."
+  The parent session will handle it.
 
 ### Creating New Components During Implementation
 
 You may create **feature-specific components** that compose existing
-base components. Examples: PlanComparisonComponent, ActivityFeedComponent,
-OnboardingStepComponent.
+base components (e.g. PlanComparisonComponent, ActivityFeedComponent).
 
 Rules:
 
-- The new component MUST be built from existing catalog components
-- It must be a ViewComponent
-- It should render base components, not reimplement their HTML/CSS
+- MUST be built from existing catalog components
+- MUST be a ViewComponent
+- Should render base components, not reimplement their HTML/CSS
 - Add an entry to `docs/COMPONENT_CATALOG.md` following the existing
-  format (see the catalog for the template)
+  template
 
-You may NOT create new **base UI components** (form elements, feedback
-elements, overlays, navigation patterns). See "When a Base Component
-Is Missing" above.
+You may NOT create new **base UI components** — see "When a Base
+Component Is Missing" above.
 
 ## Working From Prototypes
 
-The user's design decisions are FINAL (see "Working From My Prototypes"
-in CLAUDE.md). When the user gives a raw HTML or un-wired ERB prototype:
+*(Only applies if the user provides a raw HTML or un-wired ERB prototype.
+Policy — design is final, ask before "fixing" anything — lives in CLAUDE.md.)*
 
 1. Read the prototype and identify every UI element
-2. Map each element to a component in COMPONENT_CATALOG.md:
-   - Raw `<select>` → SelectComponent
-   - Raw `<div class="card...">` → CardComponent
-   - Raw `<div class="modal...">` → ModalComponent
-   - etc.
-3. If an element maps to a base component that doesn't exist in the
-   catalog, STOP and report it (follow the "When a Base Component Is Missing" instructions above)
-4. Replace raw HTML with ViewComponent render calls, preserving:
-   - The exact layout and visual hierarchy
-   - All Tailwind classes that aren't handled by the component
-   - Any custom spacing, sizing, or positioning (but ask if there are new tokens that need to be made in `app/assets/tailwind/theme/_tokens.css`)
-5. Wire up real data where the prototype uses placeholder/hardcoded content
-6. Add Stimulus controllers for interactive elements
-7. Add loading, empty, and error states if not already prototyped
+2. Map each element to a component in COMPONENT_CATALOG.md
+   (e.g. raw `<select>` → SelectComponent, `<div class="modal...">` → ModalComponent)
+3. If an element maps to a missing base component, follow
+   "When a Base Component Is Missing" above
+4. Replace raw HTML with ViewComponent render calls, preserving exact
+   layout, visual hierarchy, and any custom spacing/sizing (ask if new
+   tokens are needed in `_tokens.css`)
+5. Wire up real data where prototypes or scaffolded views use placeholder/hardcoded content.
+6. Add loading, empty, and error states per "Every Data-Driven
+   Component Needs Three States" below
 
 ## Tailwind CSS v4
 
@@ -95,29 +83,18 @@ This project uses **Tailwind CSS v4**. Claude's training data skews v3 —
 follow these rules explicitly:
 
 - Do NOT create `tailwind.config.js`. Config is CSS-first via `@theme`.
-- Use design tokens from `_tokens.css`, not arbitrary values
-  (`w-[347px]`). Ask when you think you should deviate.
-- Mobile-first: start with base layout, add `sm:`, `md:`, `lg:` overrides
-- Use `dark:` variants when the project supports dark mode
+- Use design tokens from `_tokens.css`, not arbitrary values (`w-[347px]`).
+  Ask when you think you should deviate.
+- Mobile-first: start with base layout, add `sm:`, `md:`, `lg:` overrides.
 
 ## JavaScript: Stimulus Only
 
 - Check `app/javascript/controllers/` for existing controllers before
   writing new ones.
-- If you need a new controller, match the project conventions
-  in `app/javascript/controllers/`
-- Namespace custom controllers to avoid JSP conflicts: `ui-modal`
+- Match project conventions when writing new controllers.
+- Namespace custom controllers to avoid conflicts: `ui-modal`
   not `modal` (file: `ui_modal_controller.js`,
   attribute: `data-controller="ui-modal"`).
-
-## Hotwire Interaction Patterns
-
-- **Turbo Frames** for partial page updates (inline editing, tabs, modals)
-- **Turbo Streams** for real-time updates and multi-element changes
-- **Stimulus** for client-side-only interactivity (toggles, validation, clipboard)
-- Don't build SPAs. Server-rendered HTML + Hotwire is the architecture.
-- Test Hotwire behavior with system tests (they run in a real browser
-  and verify Turbo Frame/Stream behavior end-to-end).
 
 ## Every Data-Driven Component Needs Three States
 
@@ -129,7 +106,7 @@ Every data-driven component needs these (ask if unsure what to do):
 
 ## Hard Rules
 
-- NEVER hardcode styling that is already available as a token in `app/assets/tailwind/theme/_tokens.css` or add arbitrary Tailwind values — always use token-based Tailwind classes. If you need a new token, ask.
+- NEVER hardcode styling available as a token, or add arbitrary Tailwind
+  values — always use token-based classes. If a new token is needed, ask.
 - NEVER add JS dependencies without asking
 - NEVER use icon libraries not already in the project
-- NEVER create `tailwind.config.js` — this is Tailwind v4

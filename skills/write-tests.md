@@ -76,6 +76,10 @@ report a task complete without a green full suite.
 Prefer system/integration tests for features, model tests for business
 logic. When in doubt, test at the highest level that's still fast.
 
+Hotwire behavior (Turbo Frames, Turbo Streams) must be covered by
+system tests — they run in a real browser and verify Turbo Frame/Stream
+behavior end-to-end. Integration tests can't exercise this correctly.
+
 ## Conventions
 
 | Convention | Rule |
