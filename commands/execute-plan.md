@@ -60,7 +60,7 @@ Between tasks, report progress:
 
 ### When a Task Fails
 
-If a clone reports failure or review-changes finds blocking issues
+If a clone reports failure or review-changes-mini finds blocking issues
 that can't be auto-fixed:
 
 - **Small/clear issue** (wrong approach, missing dep, ambiguous spec):

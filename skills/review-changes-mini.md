@@ -52,6 +52,8 @@ Do these automatically:
 - Run `bundle exec rubocop -A`
 - Remove debug artifacts: `console.log`, `debugger`, `binding.pry`,
   `byebug`, `binding.irb`, `puts`/`pp`/`p` used for debugging
+- Remove task-specific `TODO`/`FIXME` comments (preserve
+  `TODO: replace with [ComponentName]` placeholders)
 - Fix trailing whitespace, missing newlines
 
 ## Handling Findings

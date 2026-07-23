@@ -1,11 +1,5 @@
 ---
-description: Review code changes for bugs, security issues, and spec compliance
-argument-hint: <blank for uncommitted, or "branch" for full branch review>
+description: Full branch review for bugs, security issues, and spec compliance
 ---
 
-Run the review-changes skill.
-
-If $ARGUMENTS is "branch", pass that context: reviewing all branch
-changes against main.
-
-If no arguments, pass that context: reviewing uncommitted changes only.
+Run the review-changes skill against the full branch (git diff main).

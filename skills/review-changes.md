@@ -1,65 +1,58 @@
 ---
 name: review-changes
-version: 1.1 # bump on meaningful changes
+version: 2.0
 description: >
-  Review recent code changes for bugs, security issues, Rails
-  anti-patterns, and spec compliance. Invoked by commands
-  (/review-changes), by other skills (execute-plan, wrap-up), by
-  task plans, or when the user explicitly asks to review changes.
-  Do NOT auto-invoke for any other situation.
+  Full branch review: security audit, Rails anti-patterns,
+  cross-commit integration issues, and a holistic spec check against
+  the overall plan. Assumes review-changes-mini already ran cleanly
+  at each checkpoint during execution. Manually invoked via
+  /review-changes only. Do NOT auto-invoke for any other situation.
 disable-model-invocation: true
 model: sonnet
 ---
 
 # Review Changes
 
-Two-stage review: determine scope, check the work matches the spec, then check
-the code is good. Spec compliance comes before code check — don't proceed to
-code quality until the spec passes.
+Full-branch pass. Assumes each checkpoint already passed `review-changes-mini` (spec compliance, tests, basic lint/debug cleanup).
 
-## Phase 1: Determine Review Scope and Gather Context
+## Phase 1: Gather Context
 
-| Invoked as | What to diff |
-|---|---|
-| `/review-changes branch` | `git diff main` (all branch changes) |
-| `/review-changes` (no args) | `git diff HEAD` (staged + unstaged against HEAD — plain `git diff` alone misses staged changes) plus `git status --porcelain` for untracked new files, read directly since diff commands never show untracked content. If both empty: "Nothing to review — use `/review-changes branch` for the full branch." |
-| From another skill or plan task | Same as above (`git diff HEAD` + untracked check). If clean: `git diff HEAD~1` |
+Diff `git diff main` (all branch changes).
 
-For branch reviews with 20+ files: focus on cross-file concerns
-(inconsistent patterns, duplicate code, missing integration). Per-file
-quality was already reviewed during task execution.
+For branches with 20+ files: focus on cross-file concerns (inconsistent
+patterns, duplicate code, missing integration). Per-file quality was
+already reviewed by mini at checkpoint time.
 
-**Gather context:** Find the original task or plan in `docs/plans/`.
-If multiple commits exist on this branch (`git log --oneline main..HEAD`),
-scan for cross-commit issues: conflicting changes, duplicate
-definitions, orphaned code, merge artifacts.
+Find the full plan in `docs/plans/`. Scan commit history
+(`git log --oneline main..HEAD`) for cross-checkpoint issues: conflicting
+changes, duplicate definitions, orphaned code, merge artifacts — the kind
+of issue mini couldn't see because it only ever looked at one
+checkpoint's diff at a time.
 
-## Phase 2: Spec Compliance
+## Phase 2: Holistic Spec Check
 
-Read the task or plan, then check:
+Mini already verified spec compliance per checkpoint. This phase only
+checks for integration-level drift that emerges from combining
+checkpoints:
 
-- Does every requirement have a corresponding implementation?
-- Was anything built that WASN'T in the spec? (flag as scope creep)
-- Do tests cover the specified behavior?
-- Does implementation match "In scope" / "NOT in scope" boundaries?
+- Does the finished branch, taken as a whole, still satisfy the
+  original plan's "In scope" / "NOT in scope" boundaries?
+- Did any checkpoint's change quietly break or undo another
+  checkpoint's requirement?
 
-**If spec gaps exist: STOP. Report as BLOCKING. Do NOT proceed to
-Phase 3.**
+**If gaps exist: STOP. Report as BLOCKING. Do NOT proceed to Phase 3.**
 
 ## Phase 3: Code Quality
 
 Only after Phase 2 passes. Perform in order.
 
-### A) Tests (Blocking)
+### A) Full Test Suite (Blocking)
 
-- For every new or modified model: does a corresponding test file exist?
-- For every new route/controller action: does a system or integration test exist?
-- Run `bin/rails test` — review FAILS if any test fails
-- If test files are missing for new code, list them as BLOCKING issues.
+- Run `bin/rails test` for the whole branch — review FAILS if any test
+  fails. This catches integration failures between checkpoints that
+  isolated per-checkpoint runs couldn't catch.
 
-### B) Security (Blocking)
-
-Check for:
+### B) Security (Blocking) — not covered by mini
 
 - Hardcoded secrets, credentials, or API keys
 - Missing strong parameters on new attributes
@@ -69,10 +62,11 @@ Check for:
 - XSS (unescaped output in views)
 - Mass assignment vulnerabilities
 
-### C) Rails Patterns (Blocking or Recommend)
+### C) Rails Patterns (Blocking or Recommend) — not covered by mini
 
-- N+1 queries (`.each` triggering queries — add `includes`) → blocking
-- DRY violations (new code duplicating existing logic) → blocking
+- N+1 queries (`.each` triggering queries → add `includes`) → blocking
+- DRY violations across checkpoints (duplicate logic introduced by
+  different checkpoints) → blocking
 - Code smells → recommend, don't block:
   - Method > ~20 lines, class > ~200 lines
   - Model with 3+ callbacks
@@ -81,32 +75,21 @@ Check for:
 
 ### D) Auto-Fix (No Approval Needed)
 
-Do these automatically:
-
-- Run `bundle exec rubocop -A`
-- Remove debug artifacts: `console.log`, `debugger`, `binding.pry`,
-  `byebug`, `binding.irb`, `puts`/`pp`/`p` used for debugging
-- Remove task-specific `TODO`/`FIXME` comments (preserve
-  `TODO: replace with [ComponentName]` placeholders)
-- Fix missing indexes on foreign keys
-- Fix trailing whitespace, missing newlines
+- Fix missing indexes on foreign keys (not in mini's auto-fix list)
+- Run `bundle exec rubocop -A` as a final safety net
 
 ## Handling Findings
 
-**If running as master (standalone or during execute-plan):**
-delegate blocking issues that need substantial work
-to a Task clone. Fix everything else inline.
+Fix minor issues inline. For blocking issues that need substantial work,
+delegate to a Task clone; fix everything else inline yourself.
 
-**If running as a clone (during task execution):**
-fix minor issues inline. For blocking issues, STOP
-and report back — do not spawn sub-clones.
-
-**STOP and ask the user only for:** security vulnerabilities, missing
-tests, spec violations, data loss risk, architectural concerns.
+**Stop and ask the user only for:** security vulnerabilities,
+cross-checkpoint spec violations, data loss risk, architectural
+concerns.
 
 Present findings to the user:
 
-```
+\```
 Review complete.
 
 ## Blocking Issues
@@ -117,8 +100,12 @@ Review complete.
 
 ## Recommendations (Non-Blocking)
 1. [suggestion] — [why] — [up to you]
-```
+\```
 
-After all issues have been fixed and recommendations addressed, commit following git-conventions rules. Use the task or plan description as the commit message basis. Then say "Review complete. Everything committed."
+After all issues have been fixed and recommendations addressed, commit
+following git-conventions rules. Use the plan description as the commit
+message basis. Then say "Review complete. Everything committed."
 
-If no blocking issues or recommendations, commit following git-conventions rules. Use the task or plan description as the commit message basis. Then say "Review passed. Everything committed."
+If no blocking issues or recommendations, commit following
+git-conventions rules. Use the plan description as the commit message
+basis. Then say "Review passed. Everything committed."
