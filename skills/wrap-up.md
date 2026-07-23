@@ -1,29 +1,11 @@
 ---
 name: wrap-up
-version: 1.2 # bump on meaningful changes
+version: 1.3
 description: >
   End-of-session ritual: ship, remember, improve. Commits code, captures
-  learnings, logs system improvements for manual review, and documents
-  changes.
+  learnings, and logs system improvements for manual review.
 disable-model-invocation: true
 model: sonnet
----
-
-## Determine Session Type
-
-Run once at the start to decide how much of Phase 2 to run.
-
-```
-# Count non-doc files changed
-If on a branch: git diff --name-only main -- app/ config/ db/ lib/ test/
-If on main:     git diff --name-only HEAD~5 -- app/ config/ db/ lib/ test/
-```
-
-| Condition | Session type |
-|-----------|-------------|
-| No active plan in `docs/plans/` (skip `done/`) AND < 5 app files changed | **Light** — Phase 2 runs Remember + Changelog only |
-| Everything else | **Full** — Phase 2 runs all sections |
-
 ---
 
 ## Phase 1: Ship It
@@ -32,7 +14,11 @@ Work through these gates in order. Do not skip ahead.
 
 ### 1A. Update Generated Artifacts
 
-Check changed files (`git diff --name-only main` or `HEAD~5`):
+Check changed files:
+
+```bash
+git diff --name-only main
+```
 
 | If changes touch… | Then… |
 |---|---|
@@ -40,19 +26,14 @@ Check changed files (`git diff --name-only main` or `HEAD~5`):
 | `app/components/` | Read and run `/update-catalog` inline (skip its commit step) |
 | Neither | Skip |
 
-### 1B. Update Handoff File
-
-Read and run `/catchup` inline (skip its commit step).
-
-### 1C. Preflight Checks
+### 1B. Preflight Checks
 
 Run in order. Stop and report on any failure.
 
 1. `bin/rails db:migrate:status` — flag any pending or "down" migrations
-2. `bin/rails test` — full suite must pass. If tests fail, STOP.
-3. `git status` — if nothing to commit, skip to 1D
+2. `git status` — if nothing to commit, skip to 1C
 
-### 1D. Commit & Push
+### 1C. Commit & Push
 
 1. Stage everything and commit following git-conventions rules
 2. Push to remote
@@ -62,10 +43,9 @@ Run in order. Stop and report on any failure.
 
 ## Phase 2: Remember, Review, Improve
 
-Before starting, read `.claude/session-learnings.md` and `.codex/session-learnings.md` if they exist. These files have learnings from earlier in the session (captured before context
-clears). Combine with observations from the current context window.
-Process ALL learnings — from the file and from memory — through the
-sections below.
+Before starting, read `.claude/session-learnings.md` and `.codex/session-learnings.md` if they exist. These files have learnings from earlier in the session (captured before context clears). Combine with observations from the current context window.
+
+Process all learnings from the file and current session through the sections below.
 
 ### Remember
 
@@ -74,39 +54,19 @@ Route each learning through these questions in order — stop at first match:
 | # | Question | Route to |
 |---|----------|----------|
 | 1 | Ephemeral? (local URLs, WIP, credentials) | `CLAUDE.local.md` |
-| 2 | Permanent project decision? | `AGENTS.md` if the project follows the AGENTS.md pattern (see below), else project `CLAUDE.md` |
-| 3 | Debugging insight or quirk for this project? | `AGENTS.md` if the project follows the AGENTS.md pattern, else `CLAUDE.local.md` |
-| 4 | Duplicates existing content? | `@import` reference only |
-| 5 | Everything else (skills, commands, rules, global config) | Append to `~/.claude/system-learnings.md` |
+| 2 | Project decision, convention, or debugging insight? | `AGENTS.md` |
+| 3 | Duplicates existing content? | `@import` reference only |
+| 4 | Everything else (skills, commands, rules, global config) | Append to `~/.claude/system-learnings.md` |
 
-**Detecting the AGENTS.md pattern:** if the project has an `AGENTS.md` at the
-repo root and `CLAUDE.md` does nothing but reference it (e.g. `@AGENTS.md`),
-this project treats `AGENTS.md` as the single source of truth for
-project-specific content, kept deliberately in one file so multiple coding
-agents (Claude, Codex, etc.) read the same conventions without duplication.
-In that case route 2 and 3 target `AGENTS.md`, and `CLAUDE.md` itself should
-never gain new project-specific content — if you catch yourself about to add
-anything beyond the `@AGENTS.md` reference to `CLAUDE.md`, redirect it to
-`AGENTS.md` instead. If the project has no `AGENTS.md` (or `CLAUDE.md`
-contains project-specific content of its own), fall back to the original
-routing (`CLAUDE.md` / `CLAUDE.local.md`).
+Use `AGENTS.md` as the source of truth for project-specific learnings. Do not add new project-specific content to `CLAUDE.md`.
 
-**Before writing to CLAUDE.local.md (routes 1 and 3):** check whether
-this is a linked worktree — `[ "$(git rev-parse --git-dir)" !=
-"$(git rev-parse --git-common-dir)" ]`. If true and `CLAUDE.local.md`
-is not a symlink (`[ -L CLAUDE.local.md ]`), it's a plain file local to
-this worktree only — gitignored, never copied anywhere else, and
-permanently lost when this workspace is archived (e.g. in Conductor).
-Still write it, but warn explicitly: "Wrote to CLAUDE.local.md, but
-this is a Conductor workspace and the file isn't symlinked to your
-project root — this note will be lost when the workspace is archived.
-Consider symlinking CLAUDE.local.md to the project root via a
-Conductor setup script." Route 5 (`~/.claude/system-learnings.md`) is
-unaffected — it lives in the home directory, not the worktree.
+When writing to `CLAUDE.local.md`, warn if it is a plain file in a Conductor worktree and not a symlink, because that note will be lost when the workspace is archived.
 
-**Route 5 format** (create the file if it doesn't exist):
+For `~/.claude/system-learnings.md`, append only. It lives in the home directory and is not affected by worktree or symlink concerns.
 
-```
+**Route 4 format** (create the file if it doesn't exist):
+
+```md
 ### [Short descriptive title]
 **Date:** YYYY-MM-DD
 **Source project:** [project name]
@@ -119,61 +79,32 @@ Never directly modify global files — only append to `system-learnings.md`.
 
 ### Review & Improve
 
-> **Skip if session type is Light.**
+Analyze the session only for notable improvement opportunities.
 
-Analyze the session for improvement opportunities. If the session was
-routine with nothing notable, say "Nothing to improve" and move on.
+Only include an item if:
+- The user had to correct or repeat something.
+- The AI needed multiple attempts or made mistakes.
+- A project convention or fact was missing and should be recorded.
+- A repeated pattern should become a script, command, or skill.
 
-Work through each category:
+Limit to at most 5 findings.
 
-| Category | Ask yourself… |
-|----------|--------------|
-| Friction | Did the user have to ask for something that should've been automatic? |
-| Skill gap | Did Claude need multiple attempts at something? |
-| Mistakes | Did Claude make errors the user had to correct? |
-| Knowledge | What project facts was Claude missing? |
-| Dead ends | What approaches failed and should be avoided? |
-| Automation | Were there repetitive patterns that could become skills/scripts? |
-| Clone effectiveness | Were tasks scoped well? Did any clones go off-track? |
+If nothing notable happened, say:
 
-### Documentation
-
-> **Skip if session type is Light.**
-
-If a user-facing feature was completed, check if README needs updating.
-Architecture diagrams and component catalog are the primary docs — only
-update README for user-facing changes. If nothing warrants it, say
-"Nothing to document" and skip.
+> Nothing to improve.
 
 ### Changelog
 
-For any changes to project `AGENTS.md`, `CLAUDE.md`, or `CLAUDE.local.md`,
-append a one-line entry to `~/.claude/CHANGELOG.md`:
+For any changes to project `AGENTS.md`, `CLAUDE.md`, or `CLAUDE.local.md`, append a one-line entry to `~/.claude/CHANGELOG.md`:
 
-```
+```md
 YYYY-MM-DD | [file changed + version if applicable] | [what and why]
 ```
 
 If entries exceed 20, delete the oldest until 20 remain.
 
-### Approval & Commit Gate
+### Commit
 
-1. Present all Phase 2 findings to the user:
-   ```
-   Findings:
-   1. [title] — [brief description]
-   ...
-
-   Did I miss anything? Were there moments where you had to correct me,
-   repeat yourself, or work around something I did wrong?
-   ```
-2. Wait for user feedback. Process any additions.
-3. If any files changed in Phase 2, commit: `chore: session learnings`
-4. Delete `.claude/session-learnings.md` AND `.codex/session-learnings.md`
-   (whichever exist) ONLY after commit and push succeed — both have now
-   been merged into their routed destinations. If either commit or push
-   fails, keep both files for next wrap-up.
-5. If system learnings were logged:
-   "System learnings appended to ~/.claude/system-learnings.md —
-   review and apply when ready."
-6. "Wrap-up complete and changes committed."
+1. Present all Phase 2 findings to the user.
+2. Run `git status`. If any files have changed, do a chore commit.
+3. Say "Wrap-up complete and changes committed. Review `~/.claude/system-learnings.md` and apply learnings when ready."
