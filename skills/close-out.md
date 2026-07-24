@@ -1,6 +1,6 @@
 ---
 name: close-out
-version: 1.6 # bump on meaningful changes
+version: 1.7 # bump on meaningful changes
 description: >
   Single entry point to close out ticket/feature work after
   review-changes and wrap-up have run. Detects whether a PR exists yet
@@ -26,22 +26,12 @@ read and run `~/.claude/skills/archive-docs.md` inline, passing
 make its own commit — every caller depends on that commit existing as a
 standalone. If it finds nothing to archive, that's fine; continue.
 
-## 1. Resolve What We're Closing
+## 1. Resolve Branch and Environment
 
-Priority order — first match wins:
-
-1. **$ARGUMENTS given** → resolve it to a branch:
-   - Ticket ID (e.g. `TIC-2`) → `gh pr list --search "<id>" --state all --json number,headRefName`
-   - PR URL/number → `gh pr view <ref> --json headRefName`
-   - Branch name → use directly
-   - Zero results for a ticket ID → treat as "no PR yet"; if a local
-     branch matching the naming convention exists (`git branch --list
-     "*<id>*"`), use it — otherwise ask which branch this ticket is on.
-   - 2+ results (ticket ID search only) → STOP. List them, ask which
-     one is correct. Never guess.
-2. **No argument, on a non-main branch** → use the current branch.
-3. **No argument, on main** → ask: "Which ticket/branch/PR do you want
-   to close out?" Do not proceed without one.
+`<branch>` is always the current branch — close-out is run from the
+branch being closed. If you find yourself on `main`, stop and ask which
+branch to close out rather than guessing; the delete steps below would
+otherwise target `main` itself.
 
 Then determine this once, here, and carry the answer through every
 section below — do not re-check it later:
