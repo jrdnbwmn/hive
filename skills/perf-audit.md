@@ -1,6 +1,6 @@
 ---
 name: perf-audit
-version: 1.0 # bump on meaningful changes
+version: 1.1 # bump on meaningful changes
 description: >
   Invoked by the /perf-audit command.
 disable-model-invocation: true
@@ -17,18 +17,48 @@ Perform a thorough, multi-layered performance audit of a Rails + Hotwire + Tailw
 
 ## Process
 
-### Step 1: Scope Resolution
+### Step 1: Scope Resolution (Master)
 - If a target scope is given, identify all related files: models, controllers, views, partials, Stimulus controllers, routes, tests, and migrations that touch that area.
-- If no scope, work directory-by-directory through the full app.
-- Output the resolved file list before proceeding.
+- If no scope, list the app directory-by-directory to build the file list.
+- Output the resolved file list before proceeding. Every clone in Step 2
+  receives this list, so resolve it once here — clones must not re-derive it.
 
-### Step 2: Run All Audit Passes
-Execute EVERY pass below against the resolved scope. Do not skip any pass. For each finding, record:
+### Step 2: Fan Out the Audit Passes
+
+Every pass below must run. They are read-only and independent, so
+delegate them to clones grouped by file locality — each clone reads its
+files once and runs all its assigned passes against them.
+
+Launch all four clones in a SINGLE message so they run in parallel.
+Use `model: sonnet` for each.
+
+| Clone | Passes | Reads |
+|---|---|---|
+| A | 1, 7, 8 | app/models/, app/jobs/, db/schema.rb, db/migrate/ |
+| B | 2, 5 | app/controllers/, config/ |
+| C | 3, 4 | app/views/, app/components/, app/javascript/controllers/ |
+| D | 6, 9, 10 | app/assets/, config/routes.rb, JSP config |
+
+Each clone prompt MUST include:
+- The resolved file list from Step 1
+- "Read `~/.claude/skills/perf-audit.md` and run Passes [N, N, N] against
+  these files. Run only your assigned passes."
+- The finding record format below
+- "Report findings only. Do NOT fix anything, do NOT edit files, do NOT
+  commit. Return your findings grouped by pass."
+
+For each finding, a clone records:
 - **File + line** (be specific)
 - **Category** (from the pass name)
 - **Issue** (what's wrong)
 - **Suggestion** (concrete fix or approach)
 - **Impact estimate** (high / medium / low)
+
+**If the scope is a single file or a handful of files**, skip the fan-out
+and run all ten passes inline — clone overhead outweighs the parallelism.
+
+When the clones return, do NOT re-audit their files. Take their findings
+as given and assemble the report in Step 3.
 
 ---
 
@@ -113,9 +143,11 @@ Execute EVERY pass below against the resolved scope. Do not skip any pass. For e
 
 ---
 
-## Step 3: Output Format
+## Step 3: Output Format (Master)
 
-Produce a single report organized as follows:
+Merge the findings returned by all four clones into a single report.
+Deduplicate anything two clones flagged on the same file:line, keeping
+the higher impact estimate. Organize as follows:
 
 ### Summary
 - Total findings count by severity (high / medium / low)
@@ -141,5 +173,7 @@ List any areas where you suspect a performance issue but can't confirm without r
 - Be exhaustive. Surface EVERYTHING, even minor issues. The developer will triage.
 - Be specific. File names, line numbers, exact code references.
 - Don't implement fixes — only report findings and suggest approaches.
+  This applies to clones too: a clone that "helpfully" fixes something
+  has broken the audit.
 - If scope is large, work through it systematically file-by-file. Don't skip files.
 - When uncertain whether something is an issue, include it in "Needs Investigation" rather than omitting it.

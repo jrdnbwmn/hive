@@ -30,6 +30,11 @@ each — this work is mechanical.
 | `app/components/` | Clone: run `/update-catalog` |
 | Neither | Skip — launch nothing |
 
+Then, only if `app/components/` changed: once the `/update-catalog`
+clone has returned, launch a clone for `/update-component-previews`.
+This one runs after, not in parallel — it reads the Quick Reference
+table that `/update-catalog` may have just changed.
+
 Clones stage their changes and do not commit; 1C commits.
 
 ### 1B. Preflight Checks

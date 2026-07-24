@@ -43,17 +43,46 @@ Report: "Executing [plan name]. Starting at Task [N] of [total].
 
 ## Step 4: Execute Tasks
 
-Execute tasks in order, respecting dependencies.
+Execute tasks in plan order, respecting the Task Dependencies section.
 
 Follow the delegation assignments in each task header ([Master] or [Clone]). If a task is marked [Clone], delegate it. If marked [Master], execute it in the current session. Do not override the plan's assignments.
 
-For each task:
+### Batching Parallel Clone Work
 
-1. Read the ALL the info for the task before you begin.
+The plan's Task Dependencies section marks which tasks can run in
+parallel. Honor it — don't delegate one clone at a time when the plan
+says otherwise.
+
+Before starting a task, look ahead at the run of consecutive [Clone]
+tasks beginning there. Batch them into a SINGLE message so they run in
+parallel when ALL of these hold:
+
+- The Task Dependencies section doesn't make any of them depend on
+  another task in the batch
+- None depends on a task that isn't done yet
+- **No two tasks in the batch write to the same file.** Check the file
+  paths in each task's Build order. If any overlap, run those serially —
+  the plan's assignments are a starting point, not a guarantee.
+- They're in the same review checkpoint group
+
+Cap a batch at 3 tasks. [Master] tasks always run alone in the current
+session — never batch them with anything.
+
+Otherwise, execute serially.
+
+### Per Task
+
+1. Read ALL the info for the task before you begin.
 2. Follow the task's build order: Test → Implement → Verify
 3. If review-changes-mini finds blocking issues, fix them before moving on.
 4. After review-changes-mini confirms the task is complete, update the
    Status table: add ✅ to the "Done" column for that task number.
+
+For a batched run: wait for every clone in the batch to return, then run
+review-changes-mini once over the whole batch and update the Status table
+for all of them together. Ignore any instruction in an individual task to
+run review-changes-mini itself — when tasks run in parallel there is no
+meaningful "final task," so the master owns the checkpoint review.
 
 Between tasks, report progress:
 "Task [N] complete. [remaining] tasks left. Continuing to Task [N+1]."
@@ -64,7 +93,10 @@ If a clone reports failure or review-changes-mini finds blocking issues
 that can't be auto-fixed:
 
 - **Small/clear issue** (wrong approach, missing dep, ambiguous spec):
-  revert with `git checkout -- .`, clarify the spec if needed, retry.
+  revert and retry. Revert ONLY the failed task's files
+  (`git checkout -- <paths>`) — never `git checkout -- .` after a batched
+  run, since that would also destroy the work of clones that succeeded.
+  Clarify the spec if needed, then retry.
   If the same task fails twice, STOP and ask the user.
 - **Bigger issue** (design was wrong, tasks are in wrong order,
   prerequisite was missed): STOP, report what went wrong, suggest

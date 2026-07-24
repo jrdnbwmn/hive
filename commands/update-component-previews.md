@@ -27,12 +27,21 @@ Build three lists:
 If everything is in sync: say "Component previews are current —
 nothing to update" and stop.
 
-## Step 1: Update Lookbook Previews
+## Steps 1 and 2: Run in Parallel
+
+Steps 1 and 2 write to different paths — `test/components/previews/`
+versus a single ERB file — so they never collide. Launch both as clones
+(`model: sonnet`) in a SINGLE message, passing each the three lists from
+Step 0 so neither re-derives them. Skip a clone whose lists are empty.
+
+If only one or two components are out of sync, just do both steps
+inline — clone overhead isn't worth it at that size.
+
+### Step 1: Update Lookbook Previews
 
 For each component that needs a new or updated preview, read ONLY
 that component's detailed section in the catalog (search for the
-
-### heading — do not read the full catalog).
+`###` heading — do not read the full catalog).
 
 Create or update `test/components/previews/[name]_component_preview.rb`
 with at least these scenarios:
@@ -43,7 +52,7 @@ with at least these scenarios:
 
 For orphaned preview files: delete them.
 
-## Step 2: Update the Kitchen Sink
+### Step 2: Update the Kitchen Sink
 
 If `app/views/dev/kitchen_sink/show.html.erb` exists:
 
@@ -54,8 +63,9 @@ If `app/views/dev/kitchen_sink/show.html.erb` exists:
 
 If the kitchen sink page does not exist, skip this step.
 
-## Step 3: Commit
+## Step 3: Stage
 
-Commit changed files: "chore: update component previews"
+Stage the changed files. Do NOT commit — /commit, review-changes, or
+wrap-up handles that.
 
-Say "Lookbook and Kitchen Sink updated."
+Say "Lookbook and Kitchen Sink updated and staged."

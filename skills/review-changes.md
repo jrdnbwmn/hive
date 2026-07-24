@@ -1,6 +1,6 @@
 ---
 name: review-changes
-version: 2.0
+version: 2.1
 description: >
   Full branch review: security audit, Rails anti-patterns,
   cross-commit integration issues, and a holistic spec check against
@@ -44,13 +44,28 @@ checkpoints:
 
 ## Phase 3: Code Quality
 
-Only after Phase 2 passes. Perform in order.
+Only after Phase 2 passes.
+
+Start A, B, and C together in a SINGLE message: the test suite runs in
+the background while the two analysis passes run as parallel clones.
+They're independent — the suite is a bash call, and B and C are
+read-only reads of the same diff. D runs last, in the master, because
+it writes.
 
 ### A) Full Test Suite (Blocking)
 
-- Run `bin/rails test` for the whole branch — review FAILS if any test
-  fails. This catches integration failures between checkpoints that
-  isolated per-checkpoint runs couldn't catch.
+- Run `bin/rails test` for the whole branch **in the background**. Review
+  FAILS if any test fails. This catches integration failures between
+  checkpoints that isolated per-checkpoint runs couldn't catch.
+- Collect the result before reporting findings. Don't report a passing
+  review with the suite still running.
+
+### B) and C) — Parallel Analysis Clones
+
+Launch both as clones (`model: sonnet`) in the same message that starts
+the test suite. Give each the branch diff scope (`git diff main`) and its
+checklist below. Each clone reports findings only — **no fixes, no edits,
+no commits.** The master fixes things in Handling Findings.
 
 ### B) Security (Blocking) — not covered by mini
 
@@ -73,12 +88,18 @@ Only after Phase 2 passes. Perform in order.
   - `if/elsif/elsif` chains
   - Raw SQL where a scope would work
 
-### D) Auto-Fix (No Approval Needed)
+### D) Auto-Fix (No Approval Needed) — Master Only
+
+Run in the master after B and C have returned and the test suite has
+finished. This step writes, so it must not overlap with the clones.
 
 - Fix missing indexes on foreign keys (not in mini's auto-fix list)
 - Run `bundle exec rubocop -A` as a final safety net
 
 ## Handling Findings
+
+Merge the findings from the B and C clones, deduplicating anything both
+flagged at the same file:line.
 
 Fix minor issues inline. For blocking issues that need substantial work,
 delegate to a Task clone; fix everything else inline yourself.
