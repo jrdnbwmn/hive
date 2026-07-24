@@ -1,6 +1,6 @@
 ---
 name: style-ui
-version: 1.1
+version: 1.2
 description: >
   UI consistency and design system enforcement. Use when building or
   editing any user-facing interface — pages, components, forms, layouts.
@@ -33,6 +33,10 @@ truth — don't reach for external libraries inline. New base components
 come from RailsBlocks via `/create-component`, never mid-task.
 
 ### When a Base Component Is Missing
+
+*(If you are already running inside `/create-component`, this section
+does not apply — building the missing base component is that command's
+job. Skip it and continue, or you'll loop.)*
 
 - Do NOT build it from scratch.
 - Propose the new component: name it, describe what it should do, and
@@ -75,8 +79,8 @@ Policy — design is final, ask before "fixing" anything — lives in CLAUDE.md.
    layout, visual hierarchy, and any custom spacing/sizing (ask if new
    tokens are needed in `_tokens.css`)
 5. Wire up real data where prototypes or scaffolded views use placeholder/hardcoded content.
-6. Add loading, empty, and error states per "Every Data-Driven
-   Component Needs Three States" below
+6. Add empty, error, and (where applicable) loading states per
+   "Data-Driven Component States" below
 
 ## Tailwind CSS v4
 
@@ -88,7 +92,9 @@ follow these rules explicitly:
   Ask when you think you should deviate.
 - Mobile-first: start with base layout, add `sm:`, `md:`, `lg:` overrides.
 
-## JavaScript: Stimulus Only
+## Stimulus Controllers
+
+*(Policy — Stimulus only, no other JS frameworks — lives in CLAUDE.md.)*
 
 - Check `app/javascript/controllers/` for existing controllers before
   writing new ones.
@@ -97,17 +103,18 @@ follow these rules explicitly:
   not `modal` (file: `ui_modal_controller.js`,
   attribute: `data-controller="ui-modal"`).
 
-## Every Data-Driven Component Needs Three States
+## Data-Driven Component States
 
-Every data-driven component needs these (ask if unsure what to do):
+Cover each of these that applies (ask if unsure):
 
-1. **Loading** — what the user sees while data fetches
-2. **Empty** — what the user sees when there's no data yet
-3. **Error** — what the user sees when something goes wrong
+1. **Empty** — what the user sees when there's no data yet
+2. **Error** — what the user sees when something goes wrong
+3. **Loading** — only where data actually arrives asynchronously (a lazy
+   Turbo Frame, a Stimulus fetch). Server-rendered components already
+   have their data and need no loading state — don't invent one.
 
 ## Hard Rules
 
 - NEVER hardcode styling available as a token, or add arbitrary Tailwind
   values — always use token-based classes. If a new token is needed, ask.
-- NEVER add JS dependencies without asking
 - NEVER use icon libraries not already in the project

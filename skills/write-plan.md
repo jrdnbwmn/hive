@@ -168,12 +168,14 @@ Default to Master when uncertain.
      `Ticket:` is the Linear identifier if one was given, otherwise
      `None`; `Branch:` is `git branch --show-current`. If that returns
      `main`/`master`, STOP and ask the user to run `/branch` first.
-3. Save plan doc to `docs/plans/<feature-name>.md`. Commit it — plus the
-   design doc if one exists:
-   `git add docs/plans/<feature-name>.md [docs/designs/<feature-name>.md]`
-   `git commit -m "docs: add design and plan for <feature>"`
+3. Save plan doc to `docs/plans/<feature-name>.md`.
 4. If a design doc exists, add to the top of it:
    `> Plan created: docs/plans/<feature-name>.md`
-5. Tell the user: **"Plan approved and saved. Run /execute-plan to start."**
+5. Commit the plan doc — plus the design doc if one exists. Do this
+   LAST, after step 4's annotation, so nothing is left uncommitted:
+   execute-plan's pre-flight stops on a dirty working tree.
+   `git add docs/plans/<feature-name>.md [docs/designs/<feature-name>.md]`
+   `git commit -m "docs: add design and plan for <feature>"`
+6. Tell the user: **"Plan approved and saved. Run /execute-plan to start."**
 
 Do NOT begin implementation. Plan and build are separate phases.

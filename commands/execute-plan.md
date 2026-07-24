@@ -36,7 +36,7 @@ Read the Status table at the top of the plan file. The next task
 where the "Done" column is empty is the starting point.
 
 - If no work has started, begin with Task 1
-- If all tasks are done, skip to Step 4
+- If all tasks are done, skip to Step 5
 
 Report: "Executing [plan name]. Starting at Task [N] of [total].
 [X] tasks complete, [Y] remaining."
@@ -73,10 +73,15 @@ Otherwise, execute serially.
 ### Per Task
 
 1. Read ALL the info for the task before you begin.
-2. Follow the task's build order: Test → Implement → Verify
-3. Mark the task done in the Status table: add ✅ to the "Done" column
+2. **Load the skills named in the task's `Skills:` line** (e.g.
+   safe-migration, write-tests, style-ui) and follow them. write-plan
+   puts them there deliberately — a task that names style-ui must not be
+   built without it. When delegating, name them in the clone's prompt so
+   it loads them too.
+3. Follow the task's build order: Test → Implement → Verify
+4. Mark the task done in the Status table: add ✅ to the "Done" column
    for that task number.
-4. At a checkpoint boundary, run the review below before starting the
+5. At a checkpoint boundary, run the review below before starting the
    next checkpoint. If it finds blocking issues, fix them first.
 
 **review-changes-mini runs once per checkpoint**, after every task in
@@ -111,4 +116,5 @@ that can't be auto-fixed:
 
 ## Step 5: Plan Complete
 
-When all tasks are done, report: "All [N] tasks complete."
+When all tasks are done, report: "All [N] tasks complete. Run
+`/review-changes` for the full branch review."

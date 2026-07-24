@@ -1,6 +1,6 @@
 ---
 name: write-tests
-version: 1.0 # bump on meaningful changes
+version: 1.1 # bump on meaningful changes
 description: >
   TDD: RED-GREEN-REFACTOR. Write the failing test first, then the minimum
   code to pass, then refactor. Use for any code that changes behavior —
@@ -20,8 +20,10 @@ Before writing anything:
 1. Look at an existing test file **of the same type** you're about to
    write (model test → `test/models/`, system test → `test/system/`).
    Match the project's patterns, naming, and helpers.
-2. If test infrastructure is broken (missing gems, DB not migrated),
-   fix that first.
+2. If test infrastructure is broken, handle it before writing anything:
+   - DB not migrated, stale test schema → fix it yourself.
+   - Missing gem → STOP and report. Never add a gem; that needs the
+     user's approval first.
 
 ## The Cycle
 
@@ -54,14 +56,28 @@ It MUST pass.
 Simplify the code you just wrote. Run the specific test after each
 change. If a test fails during refactor, fix or revert.
 
-When refactor is complete, run the full suite:
+When refactor is complete, re-run the test files you touched. They MUST
+be green before you report the task done.
 
 ```
-bin/rails test
+bin/rails test test/models/whatever_test.rb
 ```
 
-The full suite catches regressions your focused tests won't. Never
-report a task complete without a green full suite.
+**Which suite to run, and when:**
+
+| Situation | Run |
+|---|---|
+| Finishing a task (including any clone task) | Just the test files you touched |
+| Checkpoint boundary, review-changes, wrap-up | Full `bin/rails test` |
+| Working outside a plan, reporting done to the user | Full `bin/rails test` |
+
+The full suite catches regressions your focused tests won't — but a task
+touching ≤4 files rarely breaks something three directories away, and
+review-changes-mini runs the full suite at every checkpoint anyway.
+Running it after each individual task multiplies the same check.
+
+Never tell the user work is done, passing, or fixed without a green full
+suite behind that claim.
 
 ## Where Tests Go
 
@@ -70,8 +86,14 @@ report a task complete without a green full suite.
 | Model, validation, scope, association | Unit test | `test/models/` |
 | Controller action, API endpoint | Integration test | `test/integration/` |
 | User-facing feature or flow | System test | `test/system/` |
+| ViewComponent | Component test | `test/components/` |
 | Background job | Job test | `test/jobs/` |
 | Mailer | Mailer test | `test/mailers/` |
+
+Component tests render the component and assert on output — each variant,
+each slot, and the empty/error states it accepts. They don't replace the
+Lookbook preview (visual check) or the system test covering the feature
+that uses it.
 
 Prefer system/integration tests for features, model tests for business
 logic. When in doubt, test at the highest level that's still fast.
