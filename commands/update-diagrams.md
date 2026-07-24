@@ -3,21 +3,24 @@ description: Generate or update Mermaid architecture diagrams (app structure, da
 model: sonnet
 ---
 
-Create or update architecture diagrams in `docs/architecture/` following the instructions below. Exception: Do NOT touch `docs/architecture/component-map.mermaid` — that file is managed by /update-catalog.
+Create or update architecture diagrams in `docs/architecture/` following the instructions below.
 
 If $ARGUMENTS is "full" or "regenerate":
 
 - Skip the git diff check
-- Regenerate all three diagrams from scratch (see Full Generation below)
+- Regenerate all three diagrams from scratch, using the sources listed
+  under Update Affected Diagrams below
 
 If `docs/architecture/` doesn't exist yet, create it and generate all
-three diagrams from scratch (skip to Full Generation below).
+three diagrams the same way.
 
 ## Detect Which Diagrams Need Updating
 
 Check what changed:
-If on a branch: git diff --name-only main
-If on main: git diff --name-only HEAD~5
+
+```bash
+git diff --name-only main
+```
 
 Determine which diagrams are affected:
 
@@ -43,8 +46,9 @@ For each diagram that needs updating:
 
 **data-model.mermaid** (erDiagram — models with associations & key fields)
 
-- Read model files in app/models/ for associations, validations,
-  and key fields
+- Read model files in app/models/ for associations and key fields.
+  Skip validations — they don't belong in an ERD, and looking for them
+  means reading the whole model body.
 - Update the diagram to reflect new/changed/removed models
 - Include associations between models
 
@@ -59,19 +63,9 @@ can understand the app architecture WITHOUT reading source files.
 If diagrams already exist, preserve any manual annotations or comments.
 Update what changed — don't regenerate from scratch.
 
-## Full Generation
+## Stage
 
-If this is the first run or diagrams don't exist yet, generate all
-three diagrams by reading the relevant parts of the codebase:
+Stage the changed files. Do NOT commit — /commit, review-changes, or
+wrap-up handles that.
 
-- Directory structure for app-structure
-- All model files for data-model
-- routes.rb and controller directory for routes-map
-
-## Commit
-
-Commit changed files: "docs: update architecture diagrams"
-
-Say "Diagrams updated."
-
-When called from wrap-up, skip the commit — wrap-up handles it.
+Say "Diagrams updated and staged."

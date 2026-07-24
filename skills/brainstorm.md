@@ -18,8 +18,10 @@ Master-only. Interactive. No code changes, no clones.
 If `docs/architecture/` exists, read the Mermaid diagrams first:
 
 - `data-model.mermaid` → models and associations
-- `component-map.mermaid` → existing ViewComponents
 - `routes-map.mermaid` → controllers and routing
+
+For existing ViewComponents, read the Quick Reference table in
+`docs/COMPONENT_CATALOG.md`.
 
 If `docs/product/` exists, read any of the following that are present:
 

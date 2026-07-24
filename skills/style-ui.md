@@ -55,7 +55,8 @@ Rules:
 - MUST be a ViewComponent
 - Should render base components, not reimplement their HTML/CSS
 - Add an entry to `docs/COMPONENT_CATALOG.md` following the existing
-  template
+  template, listing the base components it renders in the Composes
+  column
 
 You may NOT create new **base UI components** — see "When a Base
 Component Is Missing" above.

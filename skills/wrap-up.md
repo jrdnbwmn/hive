@@ -1,6 +1,6 @@
 ---
 name: wrap-up
-version: 1.3
+version: 1.4
 description: >
   End-of-session ritual: ship, remember, improve. Commits code, captures
   learnings, and logs system improvements for manual review.
@@ -20,11 +20,17 @@ Check changed files:
 git diff --name-only main
 ```
 
+Dispatch the matching rows below as clones. If both match, launch both
+in a SINGLE message so they run in parallel. Use `model: sonnet` for
+each — this work is mechanical.
+
 | If changes touch… | Then… |
 |---|---|
-| `app/models/`, `db/migrate/`, `config/routes.rb`, or directory structure | Read and run `/update-diagrams` inline (skip its commit step) |
-| `app/components/` | Read and run `/update-catalog` inline (skip its commit step) |
-| Neither | Skip |
+| `app/models/`, `db/migrate/`, `config/routes.rb`, or directory structure | Clone: run `/update-diagrams` |
+| `app/components/` | Clone: run `/update-catalog` |
+| Neither | Skip — launch nothing |
+
+Clones stage their changes and do not commit; 1C commits.
 
 ### 1B. Preflight Checks
 

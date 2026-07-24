@@ -30,7 +30,7 @@
       "Bash(rm -rf *)"
     ]
   },
-  "model": "opusplan",
+  "model": "opus",
   "hooks": {
     "PreToolUse": [
       {
