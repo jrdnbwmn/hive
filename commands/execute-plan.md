@@ -74,15 +74,22 @@ Otherwise, execute serially.
 
 1. Read ALL the info for the task before you begin.
 2. Follow the task's build order: Test → Implement → Verify
-3. If review-changes-mini finds blocking issues, fix them before moving on.
-4. After review-changes-mini confirms the task is complete, update the
-   Status table: add ✅ to the "Done" column for that task number.
+3. Mark the task done in the Status table: add ✅ to the "Done" column
+   for that task number.
+4. At a checkpoint boundary, run the review below before starting the
+   next checkpoint. If it finds blocking issues, fix them first.
 
-For a batched run: wait for every clone in the batch to return, then run
-review-changes-mini once over the whole batch and update the Status table
-for all of them together. Ignore any instruction in an individual task to
-run review-changes-mini itself — when tasks run in parallel there is no
-meaningful "final task," so the master owns the checkpoint review.
+**review-changes-mini runs once per checkpoint**, after every task in
+that checkpoint is done. Read checkpoint boundaries from the Checkpoint
+column of the Status table.
+
+- **Serial execution:** the checkpoint's final task runs it, as the plan
+  instructs.
+- **Batched execution:** wait for every clone in the batch to return,
+  then the master runs it once over the whole checkpoint and updates the
+  Status table for all batched tasks together. A clone must not run it
+  itself — in a parallel batch there's no meaningful "final task," and
+  a clone finishing early would review an incomplete checkpoint.
 
 Between tasks, report progress:
 "Task [N] complete. [remaining] tasks left. Continuing to Task [N+1]."

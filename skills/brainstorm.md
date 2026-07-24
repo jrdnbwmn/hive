@@ -1,6 +1,6 @@
 ---
 name: brainstorm
-version: 1.3 # bump on meaningful changes
+version: 1.4 # bump on meaningful changes
 description: >
   Explore and refine what to build before writing code through Socratic
   questioning.
@@ -11,38 +11,59 @@ model: opus
 # Brainstorm
 
 Socratic design refinement — explore _what_ to build before anyone writes code.
-Master-only. Interactive. No code changes, no clones.
+Master-only and interactive.
 
 ## Phase 1: Gather Context Before You Start
 
-If `docs/architecture/` exists, read the Mermaid diagrams first:
+### Check the branch first
+
+Run `git branch --show-current`. Phase 4 stamps this branch name into
+the design doc, and archive-docs later matches on it — so a wrong value
+here is silently wrong forever.
+
+- On `main`/`master` → STOP: "Run `/branch` first — I need to be on the
+  feature branch before designing, since the design doc gets tagged with
+  it." Do not proceed.
+- Ticket provided, but the branch doesn't contain the identifier
+  (lowercased) → STOP and say so. Ask whether to continue anyway or fix
+  the branch with `/branch` first.
+
+Do not create or rename the branch yourself.
+
+### Read everything at once
+
+Issue all of the reads below as parallel tool calls in a single message
+— they're independent, and reading them serially is the slowest part of
+this phase.
+
+If `docs/architecture/` exists:
 
 - `data-model.mermaid` → models and associations
 - `routes-map.mermaid` → controllers and routing
 
-For existing ViewComponents, read the Quick Reference table in
+For existing ViewComponents, the Quick Reference table in
 `docs/COMPONENT_CATALOG.md`.
 
-If `docs/product/` exists, read any of the following that are present:
+If `docs/product/` exists, any of these that are present:
 
 - `strategy-brief.md` → personas, JTBD, value prop, positioning
 - `product-brief.md` → overall product scope and requirements
 - `ux-notes.md` → UX notes like key flows and patterns
+
+If the user points to a Linear ticket, read it as primary input. The
+design doc you will produce replaces the ticket as the source of truth —
+incorporate everything implementation-relevant so write-plan doesn't
+need to read the original.
+
+If the user provides a prototype (HTML, ERB, screenshot), read it.
+The visual design is FINAL — don't propose layout alternatives.
+Focus questions on what the prototype doesn't show.
 
 Use the context from the architecture and product files to ground your questions and proposals in the product strategy and what already exists in the app.
 Don't ask what the files already answer.
 Don't propose models that already exist or
 components that are already built (unless you're extending them) and don't propose features that contradict the positioning or
 solve problems outside the persona needs.
-
-If the user points to a Linear ticket, read
-it as primary input. The design doc you will produce replaces the ticket
-as the source of truth — incorporate everything implementation-
-relevant so write-plan doesn't need to read the original.
-
-If the user provides a prototype (HTML, ERB, screenshot), read it.
-The visual design is FINAL — don't propose layout alternatives.
-Focus questions on what the prototype doesn't show.
 
 ## Phase 2: Understand
 
@@ -66,7 +87,7 @@ Ask questions to surface what you don't know. Don't assume. Cover:
 If a prototype exists: propose changes or improvements based on what
 you've learned. Explain reasoning for each.
 
-If no prototype: propose 2-3 approaches with honest tradeoffs:
+If no prototype: propose 2 approaches with honest tradeoffs:
 
 1. **Simplest version** — minimum that solves the core problem
 2. **Recommended approach** — what you'd actually pick and why
@@ -102,7 +123,8 @@ be found accurately later, from any thread:
 
 - **Ticket:** the Linear identifier if one was provided this session
   (e.g. `TIC-123`), otherwise `None`.
-- **Branch:** run `git branch --show-current` to get the current branch name.
+- **Branch:** the branch name from the Phase 1 check — don't re-run
+  `git branch --show-current`.
 
 Save to `docs/designs/<feature-name>.md`, with the tags as the first two
 lines of the file, above the heading:

@@ -1,6 +1,6 @@
 ---
 name: write-plan
-version: 1.4 # bump on meaningful changes
+version: 1.5 # bump on meaningful changes
 description: >
   Create a detailed implementation plan from an approved design, for a
   multi-file or multi-model change.
@@ -69,15 +69,27 @@ The plan you produce MUST follow this structure exactly:
 
 Before writing anything, gather context in this order:
 
-1. **Find and read the design.** First reference the user-specified path. If no design file specified, look for an active doc in `docs/designs/`
-   (skip `done/`). If no file is specified or found, check if there is a clear, specific description from the user. If none of those exist:
-   stop. "I need an approved design before planning. Want to brainstorm first?" While reading the design doc, determine if it involves any UI/view work — anything touching views, forms, partials, components, pages, emails, admin screens, or JS/Stimulus controllers. If the doc is ambiguous or doesn't clearly rule out UI work, treat it as UI work. Only skip steps 3–4 if the design doc is clearly and entirely backend/data-only (e.g., a migration, background job, API endpoint with no new views, or internal refactor).
-2. **Read architecture diagrams** in `docs/architecture/` (if they exist):
+1. **Find and read the design**, in this order:
+   - The user-specified path, if given
+   - Otherwise an active doc in `docs/designs/` (skip `done/`)
+   - Otherwise a clear, specific description from the user in this
+     conversation
+   - None of the above → STOP: "I need an approved design before
+     planning. Want to brainstorm first?"
+
+2. **Classify the work as UI or backend-only.** Does it touch views,
+   forms, partials, components, pages, emails, admin screens, or
+   JS/Stimulus controllers? If the design is ambiguous or doesn't
+   clearly rule UI out, treat it as UI work. Skip steps 4–5 below only
+   when the design is clearly and entirely backend/data-only — a
+   migration, background job, API endpoint with no new views, or an
+   internal refactor.
+3. **Read architecture diagrams** in `docs/architecture/` (if they exist):
    `app-structure.mermaid` (where things live, directory conventions), `data-model.mermaid` (existing models and associations), `routes-map.mermaid` (current controllers and routing).
-3. **Scan the component catalog.** Read the Quick Reference table in
+4. **Scan the component catalog.** Read the Quick Reference table in
    `docs/COMPONENT_CATALOG.md`. Read detailed sections ONLY for components
    this feature will use.
-4. **Identify the prototype** (if one exists) for reference in UI tasks.
+5. **Identify the prototype** (if one exists) for reference in UI tasks.
 
 Goal: every task in the plan should reference real paths and existing
 components — not generic placeholders. Only explore the filesystem for
@@ -87,8 +99,8 @@ details the diagrams don't cover.
 
 ### Sizing
 
-Each task ≈ 2–5 minutes of clone work. If a task description exceeds
-~10 lines, split it into two tasks. Each task should touch ≤4 files.
+Each task touches ≤4 files. If a task description exceeds ~10 lines,
+split it into two tasks.
 
 ### Scoping
 
@@ -98,7 +110,7 @@ define what's NOT in scope, the task is too vague — split or refine it.
 ### Component Rule
 
 Before writing any UI task, reference the catalog scan from Pre-Flight
-step 3 — do not re-read the catalog file. If a needed component doesn't
+step 4 — do not re-read the catalog file. If a needed component doesn't
 exist in what you already scanned, do NOT include it inline. Add a prerequisite task:
 "[Master] Run /create-component to add [Component] to the component
 library" — or flag it as a blocker. Assign it to Master, not Clone —
@@ -117,8 +129,16 @@ preferring splits at dependency boundaries (or other natural breakpoints)
 over splitting tightly-coupled work. A single-task phase is still its own
 checkpoint.
 
+Record each task's checkpoint in the **Checkpoint** column of the Status
+table — that column is how execute-plan finds checkpoint boundaries.
+
 On the final task of each checkpoint group — including single-task
-checkpoints — add an explicit instruction to the task to run review-changes-mini when it is finished with its work. Add a note naming the checkpoint group it is reviewing.
+checkpoints — add an explicit instruction to run review-changes-mini
+when the task's work is finished, naming the checkpoint group it covers.
+Note in that instruction that if the checkpoint's tasks were executed as
+a parallel batch, the master runs this review once the whole batch
+returns, rather than the task running it itself. Either way it runs
+exactly once per checkpoint, after every task in that checkpoint is done.
 
 ### Assigning Master vs Clone
 
@@ -140,12 +160,20 @@ Default to Master when uncertain.
 ## Approval & Save
 
 1. Present the full plan. Wait for explicit approval.
-2. Read the `Ticket:`/`Branch:` header from the top of the design doc.
-   Copy both lines verbatim into the top of the plan doc.
-3. Save plan doc to `docs/plans/<feature-name>.md`. Commit both design and plan docs together:
-   `git add docs/designs/<feature-name>.md docs/plans/<feature-name>.md`
+2. Put a `Ticket:`/`Branch:` header at the top of the plan doc.
+   archive-docs matches on these headers and never falls back to
+   filenames, so a plan without them can never be archived.
+   - **Design doc exists:** copy both lines verbatim from its header.
+   - **No design doc** (planning from a description): derive them —
+     `Ticket:` is the Linear identifier if one was given, otherwise
+     `None`; `Branch:` is `git branch --show-current`. If that returns
+     `main`/`master`, STOP and ask the user to run `/branch` first.
+3. Save plan doc to `docs/plans/<feature-name>.md`. Commit it — plus the
+   design doc if one exists:
+   `git add docs/plans/<feature-name>.md [docs/designs/<feature-name>.md]`
    `git commit -m "docs: add design and plan for <feature>"`
-4. Add to the top of the design doc: `> Plan created: docs/plans/<feature-name>.md`
+4. If a design doc exists, add to the top of it:
+   `> Plan created: docs/plans/<feature-name>.md`
 5. Tell the user: **"Plan approved and saved. Run /execute-plan to start."**
 
 Do NOT begin implementation. Plan and build are separate phases.

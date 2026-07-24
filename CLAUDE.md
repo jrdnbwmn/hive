@@ -14,15 +14,19 @@ I am a product designer who builds small Ruby on Rails SaaS apps via vibe coding
 
 ### Working From Tickets (Linear)
 
-Given a Linear ticket, the flow is: `/brainstorm` (reads the ticket and,
-in its Phase 0, makes the branch name embed the identifier) → `/write-plan`
-→ `/execute-plan` → `/review-changes` → `/wrap-up` → `/close-out`.
+Given a Linear ticket, the flow is: `/branch` → `/brainstorm` (reads the
+ticket) → `/write-plan` → `/execute-plan` → `/review-changes` →
+`/wrap-up` → `/close-out`.
 
 Rules that hold throughout, regardless of which commands I run:
 
+- I create the branch myself with `/branch` before brainstorming. No
+  skill creates or renames it for me — brainstorm only verifies it and
+  stops if it's wrong.
 - The ticket identifier MUST appear in the branch name (see Git Branch
   Naming Rules) — that's what lets Linear's GitHub integration auto-link
-  the branch and PR.
+  the branch and PR. It also gets stamped into the design and plan docs,
+  which is how `/close-out` and `/archive-docs` find them later.
 - Never manually set the ticket's status or paste the branch/PR back into
   Linear. The GitHub integration does both automatically once the
   identifier is in the branch name.
