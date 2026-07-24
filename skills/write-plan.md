@@ -118,7 +118,7 @@ over splitting tightly-coupled work. A single-task phase is still its own
 checkpoint.
 
 On the final task of each checkpoint group — including single-task
-checkpoints — add an instruction to the task to run review-changes-mini (along with with checkpoint group it is reviewing).
+checkpoints — add an explicit instruction to the task to run review-changes-mini when it is finished with its work. Add a note naming the checkpoint group it is reviewing.
 
 ### Assigning Master vs Clone
 
