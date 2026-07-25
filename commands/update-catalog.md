@@ -18,13 +18,15 @@ If docs/COMPONENT_CATALOG.md does not exist (first run):
   (Quick Reference table + Component Details sections)
 - Skip to Step 2
 
-Otherwise detect changes:
+Otherwise detect changes. **If a caller passed you a changed-file list,
+use it and skip this command** — don't re-derive what you were given:
 
 ```bash
-git diff --name-only main -- app/components/
+git diff --name-status main -- app/components/
 ```
 
-Build three lists from the results:
+`--name-status` prefixes each path with A/M/D. Build three lists from
+those statuses:
 
 - **Added:** new component files in app/components/
 - **Modified:** changed component files in app/components/
@@ -60,6 +62,6 @@ row's Composes cell.
 ## Step 2: Stage
 
 Stage the changed files. Do NOT commit — /commit, review-changes, or
-wrap-up handles that.
+close-out handles that.
 
 Say "Catalog updated and staged."

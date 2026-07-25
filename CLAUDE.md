@@ -16,7 +16,7 @@ I am a product designer who builds small Ruby on Rails SaaS apps via vibe coding
 
 Given a Linear ticket, the flow is: `/branch` → `/brainstorm` (reads the
 ticket) → `/write-plan` → `/execute-plan` → `/review-changes` →
-`/wrap-up` → `/close-out`.
+`/close-out`.
 
 Rules that hold throughout, regardless of which commands I run:
 

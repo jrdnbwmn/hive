@@ -1,12 +1,13 @@
 ---
 name: review-changes
-version: 2.1
+version: 2.2
 description: >
   Full branch review: security audit, Rails anti-patterns,
   cross-commit integration issues, and a holistic spec check against
   the overall plan. Assumes review-changes-mini already ran cleanly
-  at each checkpoint during execution. Manually invoked via
-  /review-changes only. Do NOT auto-invoke for any other situation.
+  at each checkpoint during execution. Run /close-out afterward to ship.
+  Manually invoked via /review-changes only. Do NOT auto-invoke for any
+  other situation.
 disable-model-invocation: true
 model: sonnet
 ---
@@ -23,7 +24,11 @@ For branches with 20+ files: focus on cross-file concerns (inconsistent
 patterns, duplicate code, missing integration). Per-file quality was
 already reviewed by mini at checkpoint time.
 
-Find the full plan in `docs/plans/`. Scan commit history
+Find the full plan in `docs/plans/`. If there is no plan doc (ad-hoc
+work that skipped write-plan), say so and skip Phase 2 — there's no
+spec to check against. Phase 3 still runs in full.
+
+Scan commit history
 (`git log --oneline main..HEAD`) for cross-checkpoint issues: conflicting
 changes, duplicate definitions, orphaned code, merge artifacts — the kind
 of issue mini couldn't see because it only ever looked at one
@@ -110,7 +115,7 @@ concerns.
 
 Present findings to the user:
 
-\```
+```
 Review complete.
 
 ## Blocking Issues
@@ -121,7 +126,7 @@ Review complete.
 
 ## Recommendations (Non-Blocking)
 1. [suggestion] — [why] — [up to you]
-\```
+```
 
 After all issues have been fixed and recommendations addressed, commit
 following git-conventions rules. Use the plan description as the commit
@@ -129,4 +134,5 @@ message basis. Then say "Review complete. Everything committed."
 
 If no blocking issues or recommendations, commit following
 git-conventions rules. Use the plan description as the commit message
-basis. Then say "Review passed. Everything committed."
+basis. Then say "Review passed. Everything committed. Run `/close-out`
+to ship it."

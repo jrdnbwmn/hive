@@ -66,6 +66,6 @@ If the kitchen sink page does not exist, skip this step.
 ## Step 3: Stage
 
 Stage the changed files. Do NOT commit — /commit, review-changes, or
-wrap-up handles that.
+close-out handles that.
 
 Say "Lookbook and Kitchen Sink updated and staged."

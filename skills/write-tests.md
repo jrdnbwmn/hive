@@ -68,7 +68,7 @@ bin/rails test test/models/whatever_test.rb
 | Situation | Run |
 |---|---|
 | Finishing a task (including any clone task) | Just the test files you touched |
-| Checkpoint boundary, review-changes, wrap-up | Full `bin/rails test` |
+| Checkpoint boundary, review-changes, close-out | Full `bin/rails test` |
 | Working outside a plan, reporting done to the user | Full `bin/rails test` |
 
 The full suite catches regressions your focused tests won't — but a task

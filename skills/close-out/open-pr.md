@@ -4,6 +4,8 @@ Loaded from `~/.claude/skills/close-out.md` when the resolved branch has
 no PR. That file already resolved `<branch>` and whether this is a
 linked worktree — use those answers, don't re-derive them.
 
+This is the full finish-the-work path. Work through 3A–3E in order.
+
 ## 3A. Choose How to Finish
 
 If $ARGUMENTS specifies `merge`, `pr`, or `discard`, use it — an
@@ -19,34 +21,47 @@ ticket identifier per the Git Branch Naming Rules in CLAUDE.md?
   b) **pr** — push branch, create PR via `gh pr create`
   c) **discard** — confirm with me, then delete branch
 
-**If the choice is discard, skip 3B and 3C** — go straight to the
-discard steps in 3D. Tests and deploy-readiness don't matter for a
+**If the choice is discard, skip 3B, 3C, and 3D** — go straight to 3E.
+Don't regenerate docs, capture learnings, or run readiness checks for a
 branch you're about to throw away.
 
-## 3B. Preflight
+## 3B. Ship It
 
-Confirm wrap-up completed cleanly. The primary gate is the working tree:
+Run once, and keep the output — 3D and the ship clones all reuse it
+instead of re-running their own diffs:
 
-- No uncommitted changes (if any exist, ask: "There are uncommitted
-  changes, run /wrap-up first?" and STOP). A clean tree means wrap-up
-  committed and its gates — full `bin/rails test` and `db:migrate:status`
-  — already passed on this exact code, so don't re-run them here.
-- **Exception — running cold** (fresh thread, or you can't confirm
-  wrap-up ran this session): run `bin/rails test` and
-  `bin/rails db:migrate:status` yourself, since nothing upstream did.
-  STOP and report on any failure.
+```bash
+git diff --name-status main
+```
 
-## 3C. Production Readiness
+Call this list **CHANGED**. Use `--name-status`, not `--name-only`:
+downstream steps need to tell an added file from a modified one, and a
+bare path list can't.
 
-Checks unique to the merge boundary, not covered by review-changes or wrap-up:
+Then read `~/.claude/skills/close-out/ship.md` and follow it, passing
+CHANGED.
 
-- Run `bundle audit` — flag any known gem vulnerabilities
-- **Render:** if `bin/render-build.sh` exists, verify it includes any new
-  build steps this feature needs (new gems, asset compilation changes),
-  and `bin/rails db:migrate` if migrations were added
-- If new environment variables were added: warn "Add these to your
-  Render service's Environment settings before this deploy reaches
-  production" and list them with expected values
+## 3C. Remember, Review, Improve
+
+Read `~/.claude/skills/close-out/learnings.md` and follow it. Runs
+before the PR opens so anything captured lands in the same push.
+
+## 3D. Production Readiness
+
+Merge-boundary checks not covered by review-changes or 3B. Both are
+gated on CHANGED — skip a check outright when its trigger isn't there,
+and say you skipped it.
+
+- **`Gemfile.lock` in CHANGED** → run `bundle audit` and flag known gem
+  vulnerabilities. Otherwise skip: dependencies didn't move, so the
+  audit can only repeat what it said last time.
+- **`db/migrate/`, `Gemfile.lock`, or `app/assets/` in CHANGED** → if
+  `bin/render-build.sh` exists, verify it covers the new build steps
+  (new gems, asset compilation) and includes `bin/rails db:migrate` when
+  migrations were added.
+- **New environment variables added** → warn "Add these to your Render
+  service's Environment settings before this deploy reaches production"
+  and list them with expected values.
 
 Report `## Deploy Readiness: [PASS / FAIL]`, then blocking issues and
 non-blocking warnings. Omit the per-check lines when everything passes —
@@ -54,7 +69,11 @@ only surface what needs attention.
 
 If blocking issues exist: STOP and report. Do NOT proceed.
 
-## 3D. Execute
+## 3E. Execute
+
+**If merge or discard:** read
+`~/.claude/skills/close-out/merge-or-discard.md` and follow it. Ignore
+the rest of this section.
 
 **If pr:**
 
@@ -63,7 +82,8 @@ If blocking issues exist: STOP and report. Do NOT proceed.
   it lands on main via the normal merge instead of needing special
   handling afterward (a worktree can't check out main to commit there
   directly — see post-merge.md).
-- `git push origin <branch>`
+- `git push origin <branch>` — this is the single push for the whole
+  run, carrying 3B's, 3C's, and the archive commits.
 - Open the PR. For ticket work, title format `[{identifier}] {issue
   title}` (e.g. `[TIC-123] Add account settings form`) — Linear matches
   on the PR title too, not just the branch — and include a direct link to
@@ -72,34 +92,3 @@ If blocking issues exist: STOP and report. Do NOT proceed.
 - Say "Pushed and PR created. Once it's merged on GitHub, tell me or
   run `/close-out` again (any thread) — I'll check whether anything
   still needs archiving and finish up."
-
-**If merge:**
-
-- **If this is a linked worktree** (per Section 1): STOP. `main` is
-  checked out in the project root, so `git checkout main` will fail
-  here. Say: "Can't merge locally from a worktree — main is checked out
-  elsewhere. Use the pr path instead, or merge on GitHub." Do not
-  attempt the steps below.
-- `git checkout main`
-- `git merge <branch>` (fast-forward if possible)
-- If conflicts occur, STOP and report the conflicting files. Do NOT auto-resolve.
-- `git push origin main`
-- Delete the local branch: `git branch -d <branch>`
-- Delete the remote branch if it exists: `git push origin --delete <branch>`
-- **Archive**, using `<branch>` as the identifier.
-- "Code merged and pushed to main. Render will auto-deploy. Check the
-  Render dashboard to confirm the deploy succeeds."
-
-**If discard:**
-
-- Confirm with me first.
-- **If this is a linked worktree** (per Section 1): you can't check out
-  `main` or delete the branch you're currently sitting on. Delete the
-  remote branch if it exists (`git push origin --delete <branch>`), then
-  say "Remote branch deleted. Discard this workspace in Conductor to
-  remove the worktree and local branch." Stop — don't attempt the steps
-  below.
-- `git checkout main`
-- `git branch -D <branch>`
-- Delete the remote branch if it exists: `git push origin --delete <branch>`
-- Say "Branch discarded."

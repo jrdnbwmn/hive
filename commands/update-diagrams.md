@@ -16,10 +16,11 @@ three diagrams the same way.
 
 ## Detect Which Diagrams Need Updating
 
-Check what changed:
+Check what changed. **If a caller passed you a changed-file list, use it
+and skip this command** — don't re-derive what you were given:
 
 ```bash
-git diff --name-only main
+git diff --name-status main
 ```
 
 Determine which diagrams are affected:
@@ -66,6 +67,6 @@ Update what changed — don't regenerate from scratch.
 ## Stage
 
 Stage the changed files. Do NOT commit — /commit, review-changes, or
-wrap-up handles that.
+close-out handles that.
 
 Say "Diagrams updated and staged."

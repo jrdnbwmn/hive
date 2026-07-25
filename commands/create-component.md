@@ -31,5 +31,5 @@ $ARGUMENTS
    example data, matching existing page style and category grouping.
 8. Run tests.
 9. Stage the changes. Do NOT commit — leave that to /commit,
-   review-changes, or wrap-up.
+   review-changes, or close-out.
 10. Say "Component created and staged."

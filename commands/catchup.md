@@ -67,6 +67,6 @@ If the session since last clear was short or uneventful, write:
 Nothing notable.
 ```
 
-7. Stage and commit both files: "docs: update session handoff". When done, tell the user: "Catchup complete. Ready to clear." When called from wrap-up, skip the commit step — wrap-up handles the commit.
+7. Stage and commit both files: "docs: update session handoff". When done, tell the user: "Catchup complete. Ready to clear."
 
 Do NOT implement anything. Only read, summarize, and write the file.

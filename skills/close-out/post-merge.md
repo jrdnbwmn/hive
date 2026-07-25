@@ -15,7 +15,7 @@ grep -l "^> Branch: <branch>$" docs/designs/*.md docs/plans/*.md
 grep -l "^> Ticket: <id>$"     docs/designs/*.md docs/plans/*.md
 ```
 
-**Zero matches is the normal case.** Section 3D archives docs before the
+**Zero matches is the normal case.** Section 3E archives docs before the
 PR is opened, so they already landed on main via the merge. When nothing
 matches, skip every archive step below — don't create branches or commits
 for work that's already done.
