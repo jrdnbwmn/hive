@@ -48,7 +48,7 @@ current `origin/main`. Never run `git checkout main` in this worktree.
 
 **If Step 1 matched docs** (fallback: docs weren't archived pre-merge,
 e.g. this PR was opened or merged some other way) — that archive commit
-needs to land on `main`:
+needs its own small PR, never a direct push to `main`:
 
 1. `git fetch origin`, then `git checkout -b <branch>-archive
    origin/main` — branch from `origin/main`, not from `<branch>`, so this
@@ -56,17 +56,14 @@ needs to land on `main`:
    never contains the squash commit, and an ancestry check against
    `origin/main` would fail even though pushing is safe).
 2. **Archive** on this temp branch, using `<branch>` as the identifier.
-3. This is a real push to a shared branch: **always ask, every time.**
-
-   **STOP. Ask exactly this, and wait for an explicit yes:** "Ready to
-   push a doc-archive commit directly to main (`git push origin
-   <branch>-archive:main`). OK to push?" Do not proceed on silence, and
-   do not treat a prior similar push (e.g. an earlier ticket's archive
-   commit) as standing permission for this one.
-4. On yes only: `git push origin <branch>-archive:main`
+3. Push the branch: `git push -u origin <branch>-archive`
+4. Open a PR: `gh pr create --base main --title "chore: archive docs
+   for [identifier]" --body "..."` (see `~/.claude/CLAUDE.md` for PR body
+   conventions). Do not merge it — that's the user's call, same as any
+   other PR.
 5. `git checkout <branch> && git branch -D <branch>-archive`
-6. Delete the remote branch if it still exists: `git push origin
-   --delete <branch>`
-7. Report: "Closed out [identifier]: docs archived and pushed to main.
-   Archive this workspace in Conductor to remove the worktree and local
-   branch."
+6. Delete the original branch's remote copy if it still exists: `git
+   push origin --delete <branch>`
+7. Report: "Closed out [identifier]: docs archived via PR #<n>
+   (<url>). Archive this workspace in Conductor to remove the worktree
+   and local branch."
