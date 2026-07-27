@@ -3,7 +3,7 @@ name: brainstorm
 version: 1.4 # bump on meaningful changes
 description: >
   Explore and refine what to build before writing code through Socratic
-  questioning.
+  questioning. Manually invoked via /brainstorm only. Do NOT auto-invoke.
 disable-model-invocation: true
 model: opus
 ---

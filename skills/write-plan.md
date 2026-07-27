@@ -3,7 +3,7 @@ name: write-plan
 version: 1.5 # bump on meaningful changes
 description: >
   Create a detailed implementation plan from an approved design, for a
-  multi-file or multi-model change.
+  multi-file or multi-model change. Manually invoked via /write-plan only. Do NOT auto-invoke.
 disable-model-invocation: true
 model: opus
 ---

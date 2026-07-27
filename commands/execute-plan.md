@@ -4,6 +4,8 @@ model: sonnet
 argument-hint: <path to plan file, or blank to auto-detect>
 ---
 
+Manually invoked via `/execute-plan` only. Do NOT auto-invoke.
+
 Find and execute the current implementation plan.
 
 ## Step 1: Find the Plan

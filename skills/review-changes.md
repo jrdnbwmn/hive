@@ -6,8 +6,7 @@ description: >
   cross-commit integration issues, and a holistic spec check against
   the overall plan. Assumes review-changes-mini already ran cleanly
   at each checkpoint during execution. Run /close-out afterward to ship.
-  Manually invoked via /review-changes only. Do NOT auto-invoke for any
-  other situation.
+  Manually invoked via /review-changes only. Do NOT auto-invoke.
 disable-model-invocation: true
 model: sonnet
 ---
@@ -130,7 +129,8 @@ Review complete.
 
 After all issues have been fixed and recommendations addressed, commit
 following git-conventions rules. Use the plan description as the commit
-message basis. Then say "Review complete. Everything committed."
+message basis. Then say "Review complete. Everything committed. Run
++`/close-out` to ship it."
 
 If no blocking issues or recommendations, commit following
 git-conventions rules. Use the plan description as the commit message

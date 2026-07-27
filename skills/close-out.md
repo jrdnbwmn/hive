@@ -7,7 +7,7 @@ description: >
   it's in, then runs the right flow: regenerates derived docs, commits,
   captures learnings and opens a PR (or merges/discards for non-ticket
   work) if none exists, reports status if one's open and unmerged, or
-  syncs main + deletes the branch + archives docs if it's been merged.
+  syncs main + deletes the branch + archives docs if it's been merged. Manually invoked via /close-out only. Do NOT auto-invoke.
 disable-model-invocation: true
 model: sonnet
 ---

@@ -20,9 +20,9 @@ ticket) → `/write-plan` → `/execute-plan` → `/review-changes` →
 
 Rules that hold throughout, regardless of which commands I run:
 
+- I invoke every step myself. Each command ends by naming the next one and stops there — never run the next step, or read its skill file to run it, without me asking.
 - I create the branch myself with `/branch` before brainstorming. No
-  skill creates or renames it for me — brainstorm only verifies it and
-  stops if it's wrong.
+  skill creates or renames it for me.
 - The ticket identifier MUST appear in the branch name (see Git Branch
   Naming Rules) — that's what lets Linear's GitHub integration auto-link
   the branch and PR. It also gets stamped into the design and plan docs,
