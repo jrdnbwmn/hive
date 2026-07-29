@@ -44,7 +44,7 @@ current `origin/main`. Never run `git checkout main` in this worktree.
 1. Delete the remote branch if it still exists: `git push origin
    --delete <branch>` (ignore the error if GitHub already auto-deleted it)
 2. Report: "Closed out [identifier]. Archive this workspace in Conductor
-   to remove the worktree and local branch."
+   to remove the worktree and local branch, and sync main."
 
 **If Step 1 matched docs** (fallback: docs weren't archived pre-merge,
 e.g. this PR was opened or merged some other way) — that archive commit
@@ -66,4 +66,4 @@ needs its own small PR, never a direct push to `main`:
    push origin --delete <branch>`
 7. Report: "Closed out [identifier]: docs archived via PR #<n>
    (<url>). Archive this workspace in Conductor to remove the worktree
-   and local branch."
+   and local branch, and sync main."
