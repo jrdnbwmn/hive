@@ -76,6 +76,7 @@ Plans in `docs/plans/` are executed via `/execute-plan`.
 - Use Context7 MCP for library/API docs; if it fails once, don't retry — tell me and lean on existing code patterns instead of guessing. Exception: for UI components use `docs/COMPONENT_CATALOG.md`, not external docs; for a new component, /create-component checks RailsBlocks first, building from scratch only if it's missing.
 - Stimulus for JS interactivity. No jQuery, Alpine, React, or other frameworks.
 - Use `# AIDEV-NOTE:` comments for non-obvious decisions in code.
+- When we're working with a key or other piece of info that I should save in my own records, tell me so I know to save it.
 
 ## Don't
 
