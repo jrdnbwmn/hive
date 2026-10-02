@@ -1,6 +1,6 @@
 ---
 name: archive-docs
-version: 1.3 # bump on meaningful changes
+version: 1.4 # bump on meaningful changes
 description: >
   Archive the design and plan docs for one merged ticket/branch by moving
   them to docs/designs/done/ and docs/plans/done/. Use when the user runs
@@ -10,6 +10,8 @@ description: >
   embedded in the docs — never guess by filename. Do NOT auto-invoke for
   any other situation.
 model: sonnet
+argument-hint: <ticket ID, branch name, or PR URL/number — omit to be asked>
+allowed-tools: Bash(git *), Bash(gh *)
 ---
 
 # Archive Docs
@@ -20,6 +22,11 @@ doc — never by filename or session memory — so this works cold, in any
 thread.
 
 ## 1. Resolve the Identifier
+
+**Identifier passed to /archive-docs:** $ARGUMENTS
+
+If that is empty (or still reads as the literal placeholder, as it does
+when another skill reads this file inline), nothing was passed.
 
 | Case | Resolution |
 |---|---|

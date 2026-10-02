@@ -1,6 +1,6 @@
 ---
 name: execute-plan
-version: 1.0 # bump on meaningful changes
+version: 1.1 # bump on meaningful changes
 description: >
   Execute the current implementation plan from docs/plans/, delegating
   tasks to clones per the plan and running review-changes-mini at each
@@ -17,7 +17,9 @@ Find and execute the current implementation plan.
 
 ## Step 1: Find the Plan
 
-If the user provided a plan path, use that plan file.
+**Plan path passed to /execute-plan:** $ARGUMENTS
+
+If a path was passed, use that plan file.
 
 Otherwise, look for an active plan:
 

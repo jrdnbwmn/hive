@@ -1,6 +1,6 @@
 ---
 name: close-out
-version: 2.0 # bump on meaningful changes
+version: 2.1 # bump on meaningful changes
 description: >
   Single entry point to close out ticket/feature work after
   review-changes has run. Detects whether a PR exists yet and what state
@@ -10,6 +10,7 @@ description: >
   syncs main + deletes the branch + archives docs if it's been merged. Manually invoked via /close-out only. Do NOT auto-invoke.
 disable-model-invocation: true
 model: sonnet
+argument-hint: "<optional: merge|pr|discard — omit to use the default for this branch>"
 ---
 
 # Close Out
@@ -44,6 +45,11 @@ git branch --show-current && git rev-parse --git-dir --git-common-dir
 being closed. If it's `main`, stop and ask which branch to close out
 rather than guessing — the delete steps below would otherwise target
 `main` itself.
+
+**Finish choice passed to /close-out:** $ARGUMENTS
+
+If that's `merge`, `pr`, or `discard`, it's an explicit choice for the
+no-PR-yet case — carry it into `open-pr.md` §3A. Empty means none.
 
 **Linked worktree?** True when the two `rev-parse` paths differ (e.g. a
 Conductor workspace): `main` is checked out in the project root, so

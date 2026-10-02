@@ -1,6 +1,6 @@
 ---
 name: review-changes
-version: 2.2
+version: 2.3 # bump on meaningful changes
 description: >
   Full branch review: security audit, Rails anti-patterns,
   cross-commit integration issues, and a holistic spec check against

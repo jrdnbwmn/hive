@@ -1,17 +1,20 @@
 ---
 name: brainstorm
-version: 1.4 # bump on meaningful changes
+version: 1.5 # bump on meaningful changes
 description: >
   Explore and refine what to build before writing code through Socratic
   questioning. Manually invoked via /brainstorm only. Do NOT auto-invoke.
 disable-model-invocation: true
 model: opus
+argument-hint: <describe, include links to feature PRD and prototype>
 ---
 
 # Brainstorm
 
 Socratic design refinement — explore _what_ to build before anyone writes code.
 Master-only and interactive.
+
+**User input:** $ARGUMENTS
 
 ## Phase 1: Gather Context Before You Start
 

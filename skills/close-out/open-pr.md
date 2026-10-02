@@ -8,7 +8,8 @@ This is the full finish-the-work path. Work through 3A–3E in order.
 
 ## 3A. Choose How to Finish
 
-If $ARGUMENTS specifies `merge`, `pr`, or `discard`, use it — an
+If a finish choice of `merge`, `pr`, or `discard` was passed to
+/close-out (captured in SKILL.md), use it — an
 explicit choice always wins, even on a ticket branch.
 
 Otherwise, check whether the branch is ticket-derived: does it carry a

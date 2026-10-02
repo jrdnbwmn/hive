@@ -1,10 +1,14 @@
 ---
 name: perf-audit
-version: 1.1 # bump on meaningful changes
+version: 1.2 # bump on meaningful changes
 description: >
-  Invoked by the /perf-audit command.
+  Multi-layered performance audit of a Rails + Hotwire + Tailwind +
+  Jumpstart Pro app, for one area or the whole app. Returns all findings
+  for the developer to triage. Manually invoked via /perf-audit only.
+  Do NOT auto-invoke.
 disable-model-invocation: true
 model: sonnet
+argument-hint: <specific files or area to audit>
 ---
 
 # Skill: Performance Audit
@@ -13,6 +17,8 @@ model: sonnet
 Perform a thorough, multi-layered performance audit of a Rails + Hotwire + Tailwind v4 + Jumpstart Pro application. Return ALL findings — no filtering by severity. The developer will triage.
 
 ## Inputs
+**Target scope passed to /perf-audit:** $ARGUMENTS
+
 - **Target scope** (optional): A path, feature area, or model name (e.g., `app/models/user.rb`, `accounts`, `dashboard`). If blank, audit the entire app.
 
 ## Process
