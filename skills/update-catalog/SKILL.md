@@ -1,5 +1,11 @@
 ---
-description: Generate or update the component catalog
+name: update-catalog
+version: 1.0 # bump on meaningful changes
+description: >
+  Generate or update the component catalog (docs/COMPONENT_CATALOG.md)
+  from app/components/. Use when close-out dispatches it or the user
+  asks. Do NOT run on your own after editing components — close-out
+  handles that.
 model: sonnet
 ---
 

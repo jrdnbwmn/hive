@@ -1,5 +1,11 @@
 ---
-description: Generate or update Mermaid architecture diagrams (app structure, data model, routes)
+name: update-diagrams
+version: 1.0 # bump on meaningful changes
+description: >
+  Generate or update Mermaid architecture diagrams (app structure, data
+  model, routes). Use when close-out dispatches it or the user asks. Do
+  NOT run on your own after model, route, or migration changes —
+  close-out handles that.
 model: sonnet
 ---
 

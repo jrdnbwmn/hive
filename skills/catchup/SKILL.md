@@ -1,5 +1,11 @@
 ---
-description: Create a handoff document at .claude/whats-next.md that captures everything needed to continue this work in a fresh context
+name: catchup
+version: 1.0 # bump on meaningful changes
+description: >
+  Create a handoff document at .claude/whats-next.md that captures
+  everything needed to continue this work in a fresh context. Use when
+  the user runs /catchup or asks to save progress, hand off, or wrap up
+  before clearing. Do NOT run on your own as context grows.
 model: sonnet
 ---
 
@@ -67,6 +73,7 @@ If the session since last clear was short or uneventful, write:
 Nothing notable.
 ```
 
-7. Stage and commit both files: "docs: update session handoff". When done, tell the user: "Catchup complete. Ready to clear."
+7. If you are a clone, stage both files and report — do NOT commit.
+   Otherwise, stage and commit both files: "docs: update session handoff". When done, tell the user: "Catchup complete. Ready to clear."
 
 Do NOT implement anything. Only read, summarize, and write the file.

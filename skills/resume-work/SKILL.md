@@ -1,5 +1,11 @@
 ---
-description: Pick up where you left off after /catchup and /clear
+name: resume-work
+version: 1.0 # bump on meaningful changes
+description: >
+  Pick up where you left off after /catchup and /clear: read
+  .claude/whats-next.md, summarize the current state, and suggest the
+  next step. Use when the user runs /resume-work or asks to pick up
+  where they left off (e.g. "where were we?").
 model: sonnet
 ---
 

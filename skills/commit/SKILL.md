@@ -1,9 +1,17 @@
 ---
-description: Quick mid-session commit following project git conventions
+name: commit
+version: 1.0 # bump on meaningful changes
+description: >
+  Quick mid-session commit following project git conventions. Use when
+  the user runs /commit or asks to commit (e.g. "commit this"). Do NOT
+  commit on your own initiative.
 allowed-tools: Bash(git *)
 model: haiku
-argument-hint: <commit message or leave blank to auto-generate>
+argument-hint: "<commit message or leave blank to auto-generate>"
 ---
+
+If you are a clone, STOP: stage your changes and report complete — clones
+never commit. The master commits.
 
 1. Check for changes: `git status --porcelain`
    If empty, say "Nothing to commit." and stop.

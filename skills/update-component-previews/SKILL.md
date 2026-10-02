@@ -1,5 +1,10 @@
 ---
-description: Update Lookbook previews and kitchen sink page to match the component catalog
+name: update-component-previews
+version: 1.0 # bump on meaningful changes
+description: >
+  Update Lookbook previews and the kitchen sink page to match the
+  component catalog. Use when close-out dispatches it (after
+  update-catalog) or the user asks. Do NOT run on your own.
 model: sonnet
 ---
 

@@ -1,8 +1,15 @@
 ---
-description: Create or rename a branch with validation against naming rules
+name: branch
+version: 1.0 # bump on meaningful changes
+description: >
+  Create or rename a branch, validating it against the Git Branch Naming
+  Rules in CLAUDE.md. Use when the user runs /branch or asks for a
+  branch to be created or renamed. Do NOT run from another skill or
+  workflow step, and never create or rename a branch the user didn't ask
+  for.
 allowed-tools: Bash(git *)
 model: haiku
-argument-hint: <TICKET-ID> <description>
+argument-hint: "<TICKET-ID> <description>"
 ---
 
 Create or validate a branch name per Git Branch Naming Rules in CLAUDE.md.

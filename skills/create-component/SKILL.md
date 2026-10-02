@@ -1,7 +1,15 @@
 ---
-description: Create a new base UI component in the component library
+name: create-component
+version: 1.0 # bump on meaningful changes
+description: >
+  Create a new base UI component in the component library, sourcing it
+  from RailsBlocks first. Use when the user runs /create-component or
+  asks for a new component, when style-ui finds a missing component and
+  the user has approved creating it, or for a [Master] plan task that
+  names it. Do NOT run to fill a gap mid-task without the user's
+  approval.
 model: sonnet
-argument-hint: <component name and description>
+argument-hint: "<component name and description>"
 ---
 
 Invoke the style-ui skill to create a new ViewComponent.
