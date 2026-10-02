@@ -33,9 +33,12 @@ Create or validate a branch name per Git Branch Naming Rules in CLAUDE.md.
      - Ask user to confirm or provide another.
    - Use confirmed name.
 
-6. If on `main`/`master`: create branch from it:  
-   `git checkout -b <name>`  
-   Else: rename current branch if necessary:  
+6. If on `main`/`master`: sync with origin first, then create the branch:  
+   `git pull --ff-only`  
+   If the pull fails (diverged history, no network, no upstream), STOP and
+   report the error. Don't create the branch from a stale main.  
+   Then: `git checkout -b <name>`  
+   Else: rename current branch if necessary (no pull):  
    `git branch -m <name>`
 
-7. Report: branch name and "Ready to work".
+7. Report: branch name, whether main was synced with origin, and "Ready to work".
