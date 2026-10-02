@@ -41,7 +41,7 @@ Use `model: sonnet` for each.
 
 Each clone prompt MUST include:
 - The resolved file list from Step 1
-- "Read `~/.claude/skills/perf-audit.md` and run Passes [N, N, N] against
+- "Read `~/.claude/skills/perf-audit/SKILL.md` and run Passes [N, N, N] against
   these files. Run only your assigned passes."
 - The finding record format below
 - "Report findings only. Do NOT fix anything, do NOT edit files, do NOT

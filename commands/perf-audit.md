@@ -9,4 +9,4 @@ Run the performance audit skill.
 
 If no target scope is provided, audit the entire application.
 
-Read and follow the skill file at ~/.claude/skills/perf-audit.md
+Read and follow the skill file at ~/.claude/skills/perf-audit/SKILL.md

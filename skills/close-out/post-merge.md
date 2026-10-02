@@ -1,6 +1,6 @@
 # Close Out — Section 5: Merged
 
-Loaded from `~/.claude/skills/close-out.md` when the PR has merged. That
+Loaded from `~/.claude/skills/close-out/SKILL.md` when the PR has merged. That
 file already resolved `<branch>` and whether this is a linked worktree —
 use those answers, don't re-derive them.
 

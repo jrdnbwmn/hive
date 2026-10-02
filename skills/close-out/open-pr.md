@@ -1,6 +1,6 @@
 # Close Out — Section 3: No PR Yet
 
-Loaded from `~/.claude/skills/close-out.md` when the resolved branch has
+Loaded from `~/.claude/skills/close-out/SKILL.md` when the resolved branch has
 no PR. That file already resolved `<branch>` and whether this is a
 linked worktree — use those answers, don't re-derive them.
 

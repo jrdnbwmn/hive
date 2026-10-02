@@ -4,7 +4,7 @@ argument-hint: <optional: merge|pr|discard — omit to use the default for this 
 model: sonnet
 ---
 
-Read and follow the skill file at ~/.claude/skills/close-out.md.
+Read and follow the skill file at ~/.claude/skills/close-out/SKILL.md.
 
 Always operates on the current branch.
 

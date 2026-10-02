@@ -26,7 +26,7 @@ captures session learnings — see `close-out/ship.md` and
 Never merges a PR itself — see Section 4.
 
 **Archiving:** wherever this skill or its section files say *archive*,
-read and run `~/.claude/skills/archive-docs.md` inline, passing
+read and run `~/.claude/skills/archive-docs/SKILL.md` inline, passing
 `<branch>` as the identifier so it skips its own resolution step. Let it
 make its own commit — every caller depends on that commit existing as a
 standalone. If it finds nothing to archive, that's fine; continue.
