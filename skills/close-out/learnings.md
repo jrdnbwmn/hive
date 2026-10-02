@@ -17,15 +17,16 @@ Route each learning through these questions in order — stop at first match:
 | # | Question | Route to |
 |---|----------|----------|
 | 1 | Ephemeral? (local URLs, WIP, credentials) | `CLAUDE.local.md` |
-| 2 | Project decision, convention, or debugging insight? | `AGENTS.md` — the source of truth for project learnings. Never put these in `CLAUDE.md`. |
-| 3 | Duplicates existing content? | `@import` reference only |
-| 4 | Everything else (skills, commands, rules, global config) | Append to `~/.claude/system-learnings.md` |
+| 2 | Product behavior rule or decision (what users experience)? | `docs/product/product-brief.md` (or `ux-notes.md` for voice/UX) |
+| 3 | Project decision, convention, or debugging insight? | `AGENTS.md` — the source of truth for project learnings. Never put these in `CLAUDE.md`. |
+| 4 | Duplicates existing content? | `@import` reference only |
+| 5 | Everything else (skills, commands, rules, global config) | Append to `~/.claude/system-learnings.md` |
 
 Route 1: warn if `CLAUDE.local.md` is a plain file in a Conductor
 worktree rather than a symlink — the note will be lost when the
 workspace is archived.
 
-Route 4: append-only, never modify global files directly. It lives in
+Route 5: append-only, never modify global files directly. It lives in
 the home directory, so worktree and symlink concerns don't apply. Create
 the file if missing. One entry per learning:
 

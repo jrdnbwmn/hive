@@ -49,9 +49,9 @@ For existing ViewComponents, the Quick Reference table in
 
 If `docs/product/` exists, any of these that are present:
 
-- `strategy-brief.md` → personas, JTBD, value prop, positioning
-- `product-brief.md` → overall product scope and requirements
-- `ux-notes.md` → UX notes like key flows and patterns
+- `strategy-brief.md` → who it’s for, positioning, scope / not doing
+- `product-brief.md` → product behavior rules (families, students, billing, student data)
+- `ux-notes.md` → voice, copy, screen states, UX priorities
 
 If the user points to a Linear ticket, read it as primary input. The
 design doc you will produce replaces the ticket as the source of truth —
@@ -156,6 +156,8 @@ lines of the file, above the heading:
 
 ## Screens / Flows
 <what the user sees, step by step>
+
+Key user-facing copy (empty, error, success states), following `ux-notes.md`.
 
 ## Scope
 **In:** <what we're building>

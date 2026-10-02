@@ -105,7 +105,7 @@ follow these rules explicitly:
 
 ## Data-Driven Component States
 
-Cover each of these that applies (ask if unsure):
+Cover each of these that applies (ask if unsure). If `docs/product/ux-notes.md` exists, read it before writing any user-facing text or state, and follow its voice and examples.
 
 1. **Empty** — what the user sees when there's no data yet
 2. **Error** — what the user sees when something goes wrong
