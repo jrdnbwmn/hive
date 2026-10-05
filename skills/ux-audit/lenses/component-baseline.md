@@ -10,8 +10,11 @@ For each in-scope component, check:
   define hover, focus-visible, active, disabled, and (where relevant)
   loading/pending. A removed focus outline must be replaced with
   something equally visible.
-- **Double-submit:** the button/submit component prevents
-  double-submission (e.g. `data-turbo-submits-with`) or makes it easy.
+- **Double-submit:** Turbo disables the submitter during form
+  submission, so check the gaps — components used in forms with
+  `data-turbo="false"` or buttons that run a Stimulus `fetch` must
+  disable themselves. Pending text via `data-turbo-submits-with` is a
+  nice-to-have.
 - **Tap targets:** interactive elements are at least 44×44px, or have
   padding that gets them there.
 - **Labels:** form components require or render a visible `<label>`;

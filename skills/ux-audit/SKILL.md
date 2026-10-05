@@ -104,7 +104,7 @@ Also read, if they exist:
 
 ## Step 4: Run the Audit
 
-Whatever the lens, always check these (they mirror style-ui's
+Whatever the lens, always check these (they overlap with style-ui's
 "Before Finishing" checklist, so the audit catches what slipped through):
 
 - Empty, no-results, error, and (where async) loading states exist
