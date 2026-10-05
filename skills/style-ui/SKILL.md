@@ -1,6 +1,6 @@
 ---
 name: style-ui
-version: 1.2
+version: 1.3
 description: >
   UI consistency and design system enforcement. Use when building or
   editing any user-facing interface — pages, components, forms, layouts.
@@ -105,13 +105,56 @@ follow these rules explicitly:
 
 ## Data-Driven Component States
 
-Cover each of these that applies (ask if unsure). If `docs/product/ux-notes.md` exists, read it before writing any user-facing text or state, and follow its voice and examples.
+Cover each of these that applies (ask if unsure). If `docs/product/ux-notes.md` exists, read it before writing any user-facing text or state, and follow its voice and examples. Either way: one label per action across the page (not "Save" and "Update" for the same thing), and use the user's words, not model or database names.
 
 1. **Empty** — what the user sees when there's no data yet
 2. **Error** — what the user sees when something goes wrong
 3. **Loading** — only where data actually arrives asynchronously (a lazy
    Turbo Frame, a Stimulus fetch). Server-rendered components already
    have their data and need no loading state — don't invent one.
+4. **No results** — a search or filter matched nothing. Different from
+   Empty: say why, and offer a way out (clear filters, broaden search).
+
+Errors name the problem and the next step. Actions that stay on the
+page (inline edits, toggles, Turbo Stream updates) get a visible
+reaction. Turbo disables the submit button during submission — add
+`data-turbo-submits-with` for pending text; forms with
+`data-turbo="false"` and Stimulus `fetch` buttons must disable
+themselves. Destructive actions get a confirmation or an undo.
+
+## Task Walkthrough
+
+*(New screens or substantial changes only — skip for small edits.
+Applies with or without a prototype.)*
+
+Primary tasks come from the plan task's **Primary tasks:** line. No
+plan → the design doc whose `> Branch:` header matches the current
+branch. If neither has them, skip this section — don't infer a list.
+
+For each task, highest priority first, check every step: will the user
+know what to do, see the control, recognize it as the right one, and
+get feedback after acting? Cut avoidable steps — or, with a prototype,
+ask the user instead of cutting.
+
+## Composition
+
+*(No prototype only — a prototype's layout is final.)*
+
+- One primary action per view (matching the top Primary task, if
+  there is a list). Everything else is visibly secondary.
+- Spend emphasis in one place; keep the surroundings quiet.
+
+## Before Finishing
+
+*(New screens or substantial changes only.)* Check the markup against
+these — no screenshots needed:
+
+- [ ] Blank optional fields don't break the layout
+- [ ] Lists of 1 and of 500 work (pagination or scroll)
+- [ ] Every applicable state above is rendered
+- [ ] No dead ends: every page, modal, and error has a way forward or back
+- [ ] Inputs constrained where possible (select or date picker over free text)
+- [ ] Current location, values, and active filters are visible
 
 ## Hard Rules
 

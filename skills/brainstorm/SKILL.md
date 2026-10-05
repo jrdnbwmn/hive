@@ -1,6 +1,6 @@
 ---
 name: brainstorm
-version: 1.5 # bump on meaningful changes
+version: 1.6 # bump on meaningful changes
 description: >
   Explore and refine what to build before writing code through Socratic
   questioning. Manually invoked via /brainstorm only. Do NOT auto-invoke.
@@ -113,7 +113,10 @@ Present one at a time, get approval before moving on:
 
 1. **User flow** — what the user sees and does, step by step
 2. **Data model** — models, associations, key fields, validations
-3. **Key screens/UI** — reference existing components where possible
+3. **Key screens/UI** — reference existing components where possible.
+   For each key screen, agree on its **Primary tasks**: a prioritized
+   list of what the user comes there to do, most important first, as
+   short as possible.
 4. **Edge cases** — what happens when things go wrong or data is
    missing
 
@@ -156,6 +159,9 @@ lines of the file, above the heading:
 
 ## Screens / Flows
 <what the user sees, step by step>
+
+For each key screen (omit for backend-only screens):
+**Primary tasks:** 1. <most important> 2. <next> …
 
 Key user-facing copy (empty, error, success states), following `ux-notes.md`.
 

@@ -1,6 +1,6 @@
 ---
 name: write-plan
-version: 1.6 # bump on meaningful changes
+version: 1.7 # bump on meaningful changes
 description: >
   Create a detailed implementation plan from an approved design, for a
   multi-file or multi-model change. Manually invoked via /write-plan only. Do NOT auto-invoke.
@@ -47,6 +47,7 @@ The plan you produce MUST follow this structure exactly:
 **Skills:** [applicable skills — e.g., safe-migration, write-tests, style-ui]
 **Reference:** Read [`path/to/file`] for patterns to follow
 **Prototype:** [`path/to/prototype`] — match layout/hierarchy (UI tasks only)
+**Primary tasks:** [copied from the design doc for this task's screen] (UI tasks only)
 
 **In scope:**
 
@@ -92,7 +93,9 @@ Before writing anything, gather context in this order:
 4. **Scan the component catalog.** Read the Quick Reference table in
    `docs/COMPONENT_CATALOG.md`. Read detailed sections ONLY for components
    this feature will use.
-5. **Identify the prototype** (if one exists) for reference in UI tasks.
+5. **Identify the prototype** (if one exists) for reference in UI tasks,
+   and each screen's Primary tasks from the design doc — copy them into
+   the UI tasks so clones don't need to open the design doc.
 
 Goal: every task in the plan should reference real paths and existing
 components — not generic placeholders. Only explore the filesystem for
