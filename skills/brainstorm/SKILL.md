@@ -53,8 +53,9 @@ If `docs/product/` exists, any of these that are present:
 - `product-brief.md` → product behavior rules (families, students, billing, student data)
 - `ux-notes.md` → voice, copy, screen states, UX priorities
 
-If the user points to a Linear ticket, read it as primary input. The
-design doc you will produce replaces the ticket as the source of truth —
+If the user points to a Linear ticket, read it as primary input. 
+Product decisions in the ticket (What ships, Acceptance criteria, Out of scope) are already settled with me. Don’t re-ask them; raise one only if it conflicts with the code. 
+The design doc you will produce replaces the ticket as the source of truth —
 incorporate everything implementation-relevant so write-plan doesn't
 need to read the original.
 
@@ -63,7 +64,7 @@ The visual design is FINAL — don't propose layout alternatives.
 Focus questions on what the prototype doesn't show.
 
 Use the context from the architecture and product files to ground your questions and proposals in the product strategy and what already exists in the app.
-Don't ask what the files already answer.
+Don’t ask what the ticket or the files already answer.
 Don't propose models that already exist or
 components that are already built (unless you're extending them) and don't propose features that contradict the positioning or
 solve problems outside the persona needs.
