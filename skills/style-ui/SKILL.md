@@ -107,6 +107,8 @@ follow these rules explicitly:
 
 Cover each of these that applies (ask if unsure). If `docs/product/ux-notes.md` exists, read it before writing any user-facing text or state, and follow its voice and examples. Either way: one label per action across the page (not "Save" and "Update" for the same thing), and use the user's words, not model or database names.
 
+If `docs/product/ux-notes.md` has a page structure section, check the page's header, overlays, lists, spacing, and phone behavior against it.
+
 1. **Empty** — what the user sees when there's no data yet
 2. **Error** — what the user sees when something goes wrong
 3. **Loading** — only where data actually arrives asynchronously (a lazy
