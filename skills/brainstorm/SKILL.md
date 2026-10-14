@@ -1,6 +1,6 @@
 ---
 name: brainstorm
-version: 1.6 # bump on meaningful changes
+version: 1.7 # bump on meaningful changes
 description: >
   Explore and refine what to build before writing code through Socratic
   questioning. Manually invoked via /brainstorm only. Do NOT auto-invoke.
@@ -53,8 +53,15 @@ If `docs/product/` exists, any of these that are present:
 - `product-brief.md` → product behavior rules (families, students, billing, student data)
 - `ux-notes.md` → voice, copy, screen states, UX priorities
 
-If the user points to a Linear ticket, read it as primary input. The
-design doc you will produce replaces the ticket as the source of truth —
+If the user points to a Linear ticket, read it as primary input.
+Product decisions in the ticket (Why, What ships, Acceptance criteria,
+Out of scope) are already settled with me. Don't re-ask them; raise one
+only if it conflicts with the code. If the ticket has a "For /brainstorm"
+section, those are your questions — start there.
+If you find a product gap the ticket doesn't cover (what the user sees or
+what the app does), don't decide it: ask me, and note that the answer
+belongs in the product docs too.
+The design doc you will produce replaces the ticket as the source of truth —
 incorporate everything implementation-relevant so write-plan doesn't
 need to read the original.
 
@@ -63,12 +70,16 @@ The visual design is FINAL — don't propose layout alternatives.
 Focus questions on what the prototype doesn't show.
 
 Use the context from the architecture and product files to ground your questions and proposals in the product strategy and what already exists in the app.
-Don't ask what the files already answer.
+Don’t ask what the ticket or the files already answer.
 Don't propose models that already exist or
 components that are already built (unless you're extending them) and don't propose features that contradict the positioning or
 solve problems outside the persona needs.
 
 ## Phase 2: Understand
+
+With a ticket that has a "For /brainstorm" section, its Why and
+Acceptance criteria answer Purpose and Success — skip those, and spend
+the rounds on Data, Flows, Edges, and Gaps in how it's built.
 
 Ask questions to surface what you don't know. Don't assume. Cover:
 
