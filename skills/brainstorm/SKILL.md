@@ -77,9 +77,9 @@ solve problems outside the persona needs.
 
 ## Phase 2: Understand
 
-With a ticket that has a "For /brainstorm" section, its Why and
-Acceptance criteria answer Purpose and Success — skip those, and spend
-the rounds on Data, Flows, Edges, and Gaps in how it's built.
+With a ticket, its Why and Acceptance criteria answer Purpose and
+Success — skip those, and spend the rounds on Data, Flows, Edges, and
+Gaps in how it's built.
 
 Ask questions to surface what you don't know. Don't assume. Cover:
 
@@ -98,8 +98,8 @@ Ask questions to surface what you don't know. Don't assume. Cover:
 
 ### Propose
 
-If a prototype exists: propose changes or improvements based on what
-you've learned. Explain reasoning for each.
+If a prototype exists: propose only what it doesn't show (data, edge
+cases, states). Explain reasoning for each.
 
 If no prototype: propose 2 approaches with honest tradeoffs:
 
@@ -107,6 +107,8 @@ If no prototype: propose 2 approaches with honest tradeoffs:
 2. **Recommended approach** — what you'd actually pick and why
 
 For each: what it gives you, what it costs, what it leaves out.
+With a ticket, both approaches deliver the ticket's full What ships;
+they differ only in how it's built.
 Be specific — "more complex: adds 2 models and 1 controller" not just "more complex."
 
 Favor solutions in this order:
@@ -178,7 +180,9 @@ Key user-facing copy (empty, error, success states), following `ux-notes.md`.
 
 ## Scope
 **In:** <what we're building>
-**Deferred:** <what we're not building yet>
+**Deferred:** <what we're not building yet. With a ticket, this is the
+ticket's Out of scope. Deferring anything else is a product change: ask
+me, and note it belongs in the product docs.>
 
 ## Open Questions
 <anything unresolved — or "None">
@@ -198,7 +202,7 @@ Run `/write-plan`."
   spawn clones. The only file this skill creates is the design doc.
 - Do NOT skip to implementation — that's write-plan's job.
 - Do NOT present more than one design section at a time without checking in.
-- **Scope guard:** If the feature touches 3+ models or 5+ screens
+- **Scope guard:** If the feature adds 3+ new models or 5+ screens
   or keeps growing — stop and say so. Propose an MVP scope and a "Deferred"
   list for everything else, then let them decide what to do.
 - If the user says "just build it" — push back once. Five minutes of
