@@ -107,7 +107,7 @@ behavior end-to-end. Integration tests can't exercise this correctly.
 | Convention | Rule |
 |---|---|
 | Test framework | Minitest (not RSpec) |
-| Test data | FactoryBot factories. No fixtures unless the project already uses them. |
+| Test data | Use the project's convention (check AGENTS.md/CLAUDE.md). If none is stated, match what the test suite already uses (fixtures or FactoryBot). |
 | Mocking | Only for external APIs (Stripe, email, etc.). Mock the HTTP boundary, not internal classes. Never mock ActiveRecord or ActionController. Test behavior/outcomes, not internal implementation calls. |
 | Stuck threshold | If tests fail and you can't figure out why after 2 attempts, stop and report. Don't guess. |
 
