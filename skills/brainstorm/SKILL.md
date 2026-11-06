@@ -1,6 +1,6 @@
 ---
 name: brainstorm
-version: 1.7 # bump on meaningful changes
+version: 1.8 # bump on meaningful changes
 description: >
   Explore and refine what to build before writing code through Socratic
   questioning. Manually invoked via /brainstorm only. Do NOT auto-invoke.
@@ -178,20 +178,37 @@ For each key screen (omit for backend-only screens):
 
 Key user-facing copy (empty, error, success states), following `ux-notes.md`.
 
+## Rules
+<behavior rules the app enforces — from the ticket's What ships → Rules,
+plus any agreed here. Omit if none.>
+
 ## Scope
 **In:** <what we're building>
 **Deferred:** <what we're not building yet. With a ticket, this is the
 ticket's Out of scope. Deferring anything else is a product change: ask
 me, and note it belongs in the product docs.>
 
+## Seed Data
+<from the ticket's Seed data, verbatim. Omit if the ticket has none.>
+
+## Repo Docs to Update
+<from the ticket's Repo docs to update, exact text, so the PR adds it.
+Omit if none.>
+
+## Budget and Split
+<from the ticket's Notes: the budget that applies and how to split if
+it grows. Omit if the ticket has none.>
+
 ## Open Questions
 <anything unresolved — or "None">
-
-## More Info
-<Relevant info from the feature doc not covered above.
-Only include what affects implementation. Omit section if
-no feature doc exists.>
 ```
+
+### Check nothing was dropped
+
+With a ticket, before saving: confirm every item in every ticket
+section (except Why and the Notion links) appears in the draft doc.
+Leave one out only on purpose, with a one-line reason. Show me only the
+left-out items (or "Nothing dropped"), then save.
 
 End with: "Design approved and saved in [path]. Ready to plan?
 Run `/write-plan`."
